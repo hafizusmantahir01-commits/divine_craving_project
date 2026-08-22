@@ -11,6 +11,10 @@ import '../auth/role_selection_screen.dart';
 import '../orders/orders_screen.dart';
 import '../custom_cake/custom_cake_screen.dart';
 
+// ============================================================
+// PROFILE SCREEN
+// ============================================================
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -190,109 +194,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // EDIT PROFILE
   // ============================================================
 
- void _openEditProfileMenu() {
-  final bool isDark = _isDark;
+  void _openEditProfileMenu() {
+    final bool isDark = _isDark;
 
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: isDark ? const Color(0xFF261D19) : Colors.white,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-        top: Radius.circular(24),
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: isDark ? const Color(0xFF261D19) : Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(24),
+        ),
       ),
-    ),
-    builder: (sheetContext) {
-      return SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(18, 12, 18, 24),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const _SheetHandle(),
-
-                const SizedBox(height: 18),
-
-                Text(
-                  'Edit Profile',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : AppColors.brown,
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(18, 12, 18, 24),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const _SheetHandle(),
+                  const SizedBox(height: 18),
+                  Text(
+                    'Edit Profile',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white : AppColors.brown,
+                    ),
                   ),
-                ),
-
-                const SizedBox(height: 5),
-
-                Text(
-                  'Choose what you want to change',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: isDark ? Colors.white60 : AppColors.grey,
+                  const SizedBox(height: 5),
+                  Text(
+                    'Choose what you want to change',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isDark ? Colors.white60 : AppColors.grey,
+                    ),
                   ),
-                ),
-
-                const SizedBox(height: 16),
-
-                _OptionTile(
-                  icon: Icons.person_outline,
-                  title: 'Change Name',
-                  subtitle: 'Update your profile name',
-                  isDark: isDark,
-                  onTap: () {
-                    Navigator.pop(sheetContext);
-                    _showChangeNameDialog();
-                  },
-                ),
-
-                const SizedBox(height: 8),
-
-                _OptionTile(
-                  icon: Icons.email_outlined,
-                  title: 'Change Email',
-                  subtitle: 'Update your email address',
-                  isDark: isDark,
-                  onTap: () {
-                    Navigator.pop(sheetContext);
-                    _showChangeEmailDialog();
-                  },
-                ),
-
-                const SizedBox(height: 8),
-
-                _OptionTile(
-                  icon: Icons.photo_camera_outlined,
-                  title: 'Change Profile Picture',
-                  subtitle: 'Choose a new profile picture',
-                  isDark: isDark,
-                  onTap: () {
-                    Navigator.pop(sheetContext);
-                    _openImageOptions();
-                  },
-                ),
-
-                const SizedBox(height: 8),
-
-                _OptionTile(
-                  icon: Icons.delete_outline,
-                  title: 'Remove Profile Picture',
-                  subtitle: 'Remove your current picture',
-                  isDark: isDark,
-                  isDanger: true,
-                  onTap: () {
-                    Navigator.pop(sheetContext);
-                    _removeProfilePicture();
-                  },
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  _OptionTile(
+                    icon: Icons.person_outline,
+                    title: 'Change Name',
+                    subtitle: 'Update your profile name',
+                    isDark: isDark,
+                    onTap: () {
+                      Navigator.pop(sheetContext);
+                      _showChangeNameDialog();
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  _OptionTile(
+                    icon: Icons.email_outlined,
+                    title: 'Change Email',
+                    subtitle: 'Update your email address',
+                    isDark: isDark,
+                    onTap: () {
+                      Navigator.pop(sheetContext);
+                      _showChangeEmailDialog();
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  _OptionTile(
+                    icon: Icons.photo_camera_outlined,
+                    title: 'Change Profile Picture',
+                    subtitle: 'Choose a new profile picture',
+                    isDark: isDark,
+                    onTap: () {
+                      Navigator.pop(sheetContext);
+                      _openImageOptions();
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  _OptionTile(
+                    icon: Icons.delete_outline,
+                    title: 'Remove Profile Picture',
+                    subtitle: 'Remove your current picture',
+                    isDark: isDark,
+                    isDanger: true,
+                    onTap: () {
+                      Navigator.pop(sheetContext);
+                      _removeProfilePicture();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
 
   // ============================================================
   // CHANGE NAME
@@ -568,10 +560,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            // ==================================================
-            // PROFILE HEADER
-            // ==================================================
-
             Container(
               width: double.infinity,
               padding: const EdgeInsets.only(
@@ -663,13 +651,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
-
             const SizedBox(height: 12),
-
-            // ==================================================
-            // PROFILE OPTIONS
-            // ==================================================
-
             ProfileItem(
               icon: Icons.shopping_bag_outlined,
               title: 'My Orders',
@@ -682,7 +664,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               },
             ),
-
             ProfileItem(
               icon: Icons.cake_outlined,
               title: 'Custom Cake Requests',
@@ -695,19 +676,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               },
             ),
-
             ProfileItem(
               icon: Icons.location_on_outlined,
               title: 'My Address',
               onTap: _openAddresses,
             ),
-
             const SizedBox(height: 8),
-
-            // ==================================================
-            // SETTINGS
-            // ==================================================
-
             ProfileItem(
               icon: Icons.settings_outlined,
               title: 'Settings',
@@ -720,11 +694,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               },
             ),
-
-            // ==================================================
-            // HELP & SUPPORT
-            // ==================================================
-
             ProfileItem(
               icon: Icons.help_outline,
               title: 'Help & Support',
@@ -737,18 +706,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               },
             ),
-
-            // ==================================================
-            // LOGOUT
-            // ==================================================
-
             ProfileItem(
               icon: Icons.logout,
               title: 'Logout',
               isDanger: true,
               onTap: _showLogoutDialog,
             ),
-
             const SizedBox(height: 25),
           ],
         ),
@@ -801,7 +764,10 @@ class _AddressesScreenState extends State<AddressesScreen> {
   @override
   void initState() {
     super.initState();
-    _addresses = List<AddressModel>.from(widget.addresses);
+
+    _addresses = List<AddressModel>.from(
+      widget.addresses,
+    );
   }
 
   bool get _isDark {
@@ -885,221 +851,301 @@ class _AddressesScreenState extends State<AddressesScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: isDark ? const Color(0xFF211714) : Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(28),
-        ),
-      ),
+      useSafeArea: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.black54,
       builder: (sheetContext) {
-        return SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 12,
-              bottom: MediaQuery.of(sheetContext).viewInsets.bottom + 20,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Center(
-                    child: _SheetHandle(),
+        final double screenHeight = MediaQuery.of(sheetContext).size.height;
+
+        final double keyboardHeight =
+            MediaQuery.of(sheetContext).viewInsets.bottom;
+
+        return AnimatedPadding(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          padding: EdgeInsets.only(
+            bottom: keyboardHeight,
+          ),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: double.infinity,
+              constraints: BoxConstraints(
+                maxHeight: screenHeight * 0.92,
+              ),
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF211714) : Colors.white,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(28),
+                ),
+              ),
+              child: SafeArea(
+                top: false,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  padding: const EdgeInsets.fromLTRB(
+                    20,
+                    12,
+                    20,
+                    24,
                   ),
-                  const SizedBox(height: 22),
-                  Row(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: 48,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: isDark ? AppColors.brown : AppColors.peach,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Icon(
-                          Icons.location_on_outlined,
-                          color: isDark ? AppColors.gold : AppColors.brown,
-                        ),
+                      const Center(
+                        child: _SheetHandle(),
                       ),
-                      const SizedBox(width: 13),
-                      Expanded(
-                        child: Column(
+
+                      const SizedBox(height: 20),
+
+                      // ==================================================
+                      // HEADER
+                      // ==================================================
+
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: isDark ? AppColors.brown : AppColors.peach,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Icon(
+                              Icons.location_on_outlined,
+                              color: isDark ? AppColors.gold : AppColors.brown,
+                            ),
+                          ),
+                          const SizedBox(width: 13),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  existing == null
+                                      ? 'Add New Address'
+                                      : 'Edit Address',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        isDark ? Colors.white : AppColors.brown,
+                                  ),
+                                ),
+                                const SizedBox(height: 3),
+                                Text(
+                                  'Enter your delivery details',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: isDark
+                                        ? Colors.white60
+                                        : AppColors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 22),
+
+                      // ==================================================
+                      // ADDRESS TITLE
+                      // ==================================================
+
+                      _AddressTextField(
+                        controller: titleController,
+                        label: 'Address Title',
+                        hint: 'Home, Office, etc.',
+                        icon: Icons.bookmark_border,
+                        isDark: isDark,
+                      ),
+
+                      const SizedBox(height: 14),
+
+                      // ==================================================
+                      // COMPLETE ADDRESS
+                      // ==================================================
+
+                      _AddressTextField(
+                        controller: addressController,
+                        label: 'Complete Address',
+                        hint: 'House, Street, Area, City',
+                        icon: Icons.location_on_outlined,
+                        isDark: isDark,
+                        maxLines: 3,
+                        keyboardType: TextInputType.streetAddress,
+                      ),
+
+                      const SizedBox(height: 14),
+
+                      // ==================================================
+                      // PHONE
+                      // ==================================================
+
+                      _AddressTextField(
+                        controller: phoneController,
+                        label: 'Phone Number',
+                        hint: '+92 300 1234567',
+                        icon: Icons.phone_outlined,
+                        isDark: isDark,
+                        keyboardType: TextInputType.phone,
+                      ),
+
+                      const SizedBox(height: 18),
+
+                      // ==================================================
+                      // INFO BOX
+                      // ==================================================
+
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? const Color(0xFF33231D)
+                              : const Color(0xFFFFF5EC),
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: isDark ? Colors.white10 : AppColors.peach,
+                          ),
+                        ),
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              existing == null
-                                  ? 'Add New Address'
-                                  : 'Edit Address',
-                              style: TextStyle(
-                                fontSize: 21,
-                                fontWeight: FontWeight.bold,
-                                color: isDark ? Colors.white : AppColors.brown,
-                              ),
+                            Icon(
+                              Icons.info_outline,
+                              size: 19,
+                              color: isDark ? AppColors.gold : AppColors.brown,
                             ),
-                            const SizedBox(height: 3),
-                            Text(
-                              'Enter your delivery details',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: isDark ? Colors.white60 : AppColors.grey,
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                'Please provide an accurate address so your cake can be delivered without delay.',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  height: 1.4,
+                                  color:
+                                      isDark ? Colors.white70 : Colors.black87,
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 25),
-                  _AddressTextField(
-                    controller: titleController,
-                    label: 'Address Title',
-                    hint: 'Home, Office, etc.',
-                    icon: Icons.bookmark_border,
-                    isDark: isDark,
-                  ),
-                  const SizedBox(height: 14),
-                  _AddressTextField(
-                    controller: addressController,
-                    label: 'Complete Address',
-                    hint: 'House, Street, Area, City',
-                    icon: Icons.location_on_outlined,
-                    isDark: isDark,
-                    maxLines: 4,
-                  ),
-                  const SizedBox(height: 14),
-                  _AddressTextField(
-                    controller: phoneController,
-                    label: 'Phone Number',
-                    hint: '+92 300 1234567',
-                    icon: Icons.phone_outlined,
-                    isDark: isDark,
-                    keyboardType: TextInputType.phone,
-                  ),
-                  const SizedBox(height: 22),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: isDark
-                          ? const Color(0xFF33231D)
-                          : const Color(0xFFFFF5EC),
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                        color: isDark ? Colors.white10 : AppColors.peach,
-                      ),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.info_outline,
-                          size: 19,
-                          color: isDark ? AppColors.gold : AppColors.brown,
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            'Please provide an accurate address so your cake can be delivered without delay.',
-                            style: TextStyle(
-                              fontSize: 12,
-                              height: 1.4,
-                              color: isDark ? Colors.white70 : Colors.black87,
+
+                      const SizedBox(height: 20),
+
+                      // ==================================================
+                      // SAVE BUTTON
+                      // ==================================================
+
+                      SizedBox(
+                        width: double.infinity,
+                        height: 52,
+                        child: FilledButton.icon(
+                          style: FilledButton.styleFrom(
+                            backgroundColor:
+                                isDark ? AppColors.gold : AppColors.brown,
+                            foregroundColor:
+                                isDark ? AppColors.brown : Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 54,
-                    child: FilledButton.icon(
-                      style: FilledButton.styleFrom(
-                        backgroundColor:
-                            isDark ? AppColors.gold : AppColors.brown,
-                        foregroundColor:
-                            isDark ? AppColors.brown : Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      icon: Icon(
-                        existing == null
-                            ? Icons.add_location_alt_outlined
-                            : Icons.save_outlined,
-                      ),
-                      label: Text(
-                        existing == null ? 'Save Address' : 'Save Changes',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                      onPressed: () {
-                        final String title = titleController.text.trim();
-                        final String address = addressController.text.trim();
-                        final String phone = phoneController.text.trim();
-
-                        if (title.isEmpty || address.isEmpty || phone.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Please complete all fields'),
-                              behavior: SnackBarBehavior.floating,
+                          icon: Icon(
+                            existing == null
+                                ? Icons.add_location_alt_outlined
+                                : Icons.save_outlined,
+                          ),
+                          label: Text(
+                            existing == null ? 'Save Address' : 'Save Changes',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
                             ),
-                          );
-                          return;
-                        }
+                          ),
+                          onPressed: () {
+                            final String title = titleController.text.trim();
 
-                        setState(() {
-                          if (existing == null) {
-                            final bool firstAddress = _addresses.isEmpty;
+                            final String address =
+                                addressController.text.trim();
 
-                            _addresses.add(
-                              AddressModel(
-                                id: DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString(),
-                                title: title,
-                                address: address,
-                                phone: phone,
-                                isDefault: firstAddress,
+                            final String phone = phoneController.text.trim();
+
+                            if (title.isEmpty ||
+                                address.isEmpty ||
+                                phone.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Please complete all fields',
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                              return;
+                            }
+
+                            setState(() {
+                              if (existing == null) {
+                                final bool firstAddress = _addresses.isEmpty;
+
+                                _addresses.add(
+                                  AddressModel(
+                                    id: DateTime.now()
+                                        .millisecondsSinceEpoch
+                                        .toString(),
+                                    title: title,
+                                    address: address,
+                                    phone: phone,
+                                    isDefault: firstAddress,
+                                  ),
+                                );
+                              } else {
+                                _addresses[index!] = AddressModel(
+                                  id: existing.id,
+                                  title: title,
+                                  address: address,
+                                  phone: phone,
+                                  isDefault: existing.isDefault,
+                                );
+                              }
+                            });
+
+                            _notifyParent();
+
+                            Navigator.pop(sheetContext);
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  existing == null
+                                      ? 'Address added successfully'
+                                      : 'Address updated successfully',
+                                ),
+                                behavior: SnackBarBehavior.floating,
                               ),
                             );
-                          } else {
-                            _addresses[index!] = AddressModel(
-                              id: existing.id,
-                              title: title,
-                              address: address,
-                              phone: phone,
-                              isDefault: existing.isDefault,
-                            );
-                          }
-                        });
 
-                        _notifyParent();
-
-                        Navigator.pop(sheetContext);
-
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              existing == null
-                                  ? 'Address added successfully'
-                                  : 'Address updated successfully',
-                            ),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-
-                        titleController.dispose();
-                        addressController.dispose();
-                        phoneController.dispose();
-                      },
-                    ),
+                            titleController.dispose();
+                            addressController.dispose();
+                            phoneController.dispose();
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -1178,7 +1224,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
   }
 
   // ============================================================
-  // BUILD
+  // BUILD ADDRESS SCREEN
   // ============================================================
 
   @override
@@ -1727,6 +1773,8 @@ class _AddressTextField extends StatelessWidget {
       controller: controller,
       maxLines: maxLines,
       keyboardType: keyboardType,
+      textInputAction:
+          maxLines > 1 ? TextInputAction.newline : TextInputAction.next,
       style: TextStyle(
         color: isDark ? Colors.white : Colors.black87,
       ),

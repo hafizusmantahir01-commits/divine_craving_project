@@ -1,34 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ============================================================
 // PROVIDERS
+// ============================================================
+
 import 'providers/favorite_provider.dart';
 import 'providers/cart_provider.dart';
 import 'providers/user_theme_provider.dart';
 import 'providers/admin_theme_provider.dart';
 
+// ============================================================
 // THEME + SESSION
+// ============================================================
+
 import 'core/theme/app_theme.dart';
 import 'core/services/session_manager.dart';
 
+// ============================================================
 // AUTH
+// ============================================================
+
 import 'screens/onboarding/onboarding_screen.dart';
 import 'screens/auth/role_selection_screen.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/admin_login_screen.dart';
 import 'screens/auth/signup_screen.dart';
 
+// ============================================================
 // USER
+// ============================================================
+
 import 'screens/home/home_screen.dart';
 import 'screens/categories/categories_screen.dart';
 import 'screens/favorites/favorites_screen.dart';
 import 'screens/cart/cart_screen.dart';
 import 'screens/profile/profile_screen.dart';
 
+// ============================================================
 // ADMIN
+// ============================================================
+
 import 'admin/admin_dashboard.dart';
 
+// ============================================================
 // WIDGETS
+// ============================================================
+
 import 'widgets/bottom_nav.dart';
 
 // ============================================================
@@ -41,19 +59,43 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
+        // ======================================================
+        // FAVORITES
+        // ======================================================
+
+        ChangeNotifierProvider<FavoriteProvider>(
           create: (_) => FavoriteProvider(),
         ),
-        ChangeNotifierProvider(
+
+        // ======================================================
+        // CART
+        // ======================================================
+
+        ChangeNotifierProvider<CartProvider>(
           create: (_) => CartProvider(),
         ),
-        ChangeNotifierProvider(
+
+        // ======================================================
+        // USER THEME
+        // ======================================================
+
+        ChangeNotifierProvider<UserThemeProvider>(
           create: (_) => UserThemeProvider(),
         ),
-        ChangeNotifierProvider(
+
+        // ======================================================
+        // ADMIN THEME
+        // ======================================================
+
+        ChangeNotifierProvider<AdminThemeProvider>(
           create: (_) => AdminThemeProvider(),
         ),
       ],
+
+      // ========================================================
+      // APP
+      // ========================================================
+
       child: const MyApp(),
     ),
   );
@@ -72,11 +114,29 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       title: 'Divine Craving',
+
+      // ======================================================
+      // THEME
+      // ======================================================
+
       theme: AppTheme.lightTheme,
+
       darkTheme: AppTheme.darkTheme,
+
       themeMode: userTheme.themeMode,
+
+      // ======================================================
+      // START SCREEN
+      // ======================================================
+
       home: const AppStartScreen(),
+
+      // ======================================================
+      // ROUTES
+      // ======================================================
+
       routes: {
         '/onboarding': (_) => const OnboardingScreen(),
         '/role-selection': (_) => const RoleSelectionScreen(),
@@ -118,6 +178,10 @@ class _AppStartScreenState extends State<AppStartScreen> {
 
     if (!mounted) return;
 
+    // ======================================================
+    // USER ALREADY LOGGED IN
+    // ======================================================
+
     if (loggedIn) {
       Navigator.pushReplacementNamed(
         context,
@@ -127,6 +191,10 @@ class _AppStartScreenState extends State<AppStartScreen> {
       return;
     }
 
+    // ======================================================
+    // ONBOARDING NOT COMPLETED
+    // ======================================================
+
     if (!onboardingCompleted) {
       Navigator.pushReplacementNamed(
         context,
@@ -135,6 +203,10 @@ class _AppStartScreenState extends State<AppStartScreen> {
 
       return;
     }
+
+    // ======================================================
+    // ROLE SELECTION
+    // ======================================================
 
     Navigator.pushReplacementNamed(
       context,
@@ -166,15 +238,32 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   int currentIndex = 0;
 
+  // ==========================================================
+  // SCREENS
+  // ==========================================================
+
   late final List<Widget> screens = [
+    // HOME
     HomeScreen(
       onNavigation: _onNavigation,
     ),
+
+    // CATEGORIES
     const CategoriesScreen(),
+
+    // FAVORITES
     const FavoritesScreen(),
+
+    // CART
     const CartScreen(),
+
+    // PROFILE
     const ProfileScreen(),
   ];
+
+  // ==========================================================
+  // NAVIGATION
+  // ==========================================================
 
   void _onNavigation(int index) {
     if (index < 0 || index >= screens.length) {
@@ -186,6 +275,10 @@ class _MainShellState extends State<MainShell> {
     });
   }
 
+  // ==========================================================
+  // BUILD
+  // ==========================================================
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,6 +286,11 @@ class _MainShellState extends State<MainShell> {
         index: currentIndex,
         children: screens,
       ),
+
+      // ======================================================
+      // BOTTOM NAVIGATION
+      // ======================================================
+
       bottomNavigationBar: BottomNav(
         currentIndex: currentIndex,
         onChanged: _onNavigation,
