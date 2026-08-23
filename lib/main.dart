@@ -15,12 +15,12 @@ import 'providers/admin_theme_provider.dart';
 // ============================================================
 
 import 'core/theme/app_theme.dart';
-import 'core/services/session_manager.dart';
 
 // ============================================================
-// AUTH
+// AUTH / ONBOARDING
 // ============================================================
 
+import 'screens/splash/splash_screen.dart';
 import 'screens/onboarding/onboarding_screen.dart';
 import 'screens/auth/role_selection_screen.dart';
 import 'screens/auth/login_screen.dart';
@@ -130,96 +130,33 @@ class MyApp extends StatelessWidget {
       // ======================================================
       // START SCREEN
       // ======================================================
+      //
+      // App launch par sabse pehle Splash Screen open hogi.
+      //
+      // ======================================================
 
-      home: const AppStartScreen(),
+      home: const SplashScreen(),
 
       // ======================================================
       // ROUTES
       // ======================================================
 
       routes: {
+        // ONBOARDING
         '/onboarding': (_) => const OnboardingScreen(),
+
+        // AUTH
         '/role-selection': (_) => const RoleSelectionScreen(),
         '/login': (_) => const LoginScreen(),
         '/signup': (_) => const SignupScreen(),
         '/admin-login': (_) => const AdminLoginScreen(),
+
+        // USER HOME
         '/home': (_) => const MainShell(),
+
+        // ADMIN
         '/admin-dashboard': (_) => const AdminDashboard(),
       },
-    );
-  }
-}
-
-// ============================================================
-// APP START SCREEN
-// ============================================================
-
-class AppStartScreen extends StatefulWidget {
-  const AppStartScreen({super.key});
-
-  @override
-  State<AppStartScreen> createState() => _AppStartScreenState();
-}
-
-class _AppStartScreenState extends State<AppStartScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    _checkAppState();
-  }
-
-  Future<void> _checkAppState() async {
-    final session = SessionManager.instance;
-
-    final onboardingCompleted = await session.isOnboardingCompleted();
-
-    final loggedIn = await session.isLoggedIn();
-
-    if (!mounted) return;
-
-    // ======================================================
-    // USER ALREADY LOGGED IN
-    // ======================================================
-
-    if (loggedIn) {
-      Navigator.pushReplacementNamed(
-        context,
-        '/home',
-      );
-
-      return;
-    }
-
-    // ======================================================
-    // ONBOARDING NOT COMPLETED
-    // ======================================================
-
-    if (!onboardingCompleted) {
-      Navigator.pushReplacementNamed(
-        context,
-        '/onboarding',
-      );
-
-      return;
-    }
-
-    // ======================================================
-    // ROLE SELECTION
-    // ======================================================
-
-    Navigator.pushReplacementNamed(
-      context,
-      '/role-selection',
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
     );
   }
 }

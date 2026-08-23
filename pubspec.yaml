@@ -1,5 +1,7 @@
 name: divine_craving_project
+
 description: "A new Flutter project."
+
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -22,11 +24,23 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
 
-  # Assets section (jab aap images add karein to comment remove kar dein):
-  # assets:
-  #   - assets/images/
-  #   - assets/icons/
+  assets:
+    - assets/images/
+
+# ============================================================
+# APP ICON
+# ============================================================
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+
+  image_path: "assets/images/divine_craving_logo.png"
+
+  adaptive_icon_background: "#FFF8F2"
+  adaptive_icon_foreground: "assets/images/divine_craving_logo.png"
