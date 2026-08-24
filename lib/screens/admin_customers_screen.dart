@@ -8,11 +8,14 @@ class AdminCustomersScreen extends StatefulWidget {
   const AdminCustomersScreen({super.key});
 
   @override
-  State<AdminCustomersScreen> createState() => _AdminCustomersScreenState();
+  State<AdminCustomersScreen> createState() =>
+      _AdminCustomersScreenState();
 }
 
-class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
-  final TextEditingController searchController = TextEditingController();
+class _AdminCustomersScreenState
+    extends State<AdminCustomersScreen> {
+  final TextEditingController searchController =
+      TextEditingController();
 
   String searchQuery = '';
 
@@ -85,6 +88,10 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
     super.dispose();
   }
 
+  // ============================================================
+  // FILTERED CUSTOMERS
+  // ============================================================
+
   List<CustomerItem> get filteredCustomers {
     final query = searchQuery.trim().toLowerCase();
 
@@ -100,6 +107,10 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
           customer.address.toLowerCase().contains(query);
     }).toList();
   }
+
+  // ============================================================
+  // STATISTICS
+  // ============================================================
 
   int get totalOrders {
     return customers.fold(
@@ -120,6 +131,10 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
       return customer.orders > 0;
     }).length;
   }
+
+  // ============================================================
+  // COLORS
+  // ============================================================
 
   Color backgroundColor(bool isDark) {
     return isDark
@@ -169,6 +184,10 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
         : Colors.black12;
   }
 
+  // ============================================================
+  // BUILD
+  // ============================================================
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AdminThemeProvider>(
@@ -184,8 +203,6 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
         return Scaffold(
           backgroundColor: backgroundColor(isDark),
 
-          // AppBar
-          // Dark/Light mode button removed from right side.
           appBar: AppBar(
             elevation: 0,
             backgroundColor: cardColor(isDark),
@@ -226,6 +243,7 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
 
                   const SizedBox(height: 28),
 
+                  // FIXED STATS
                   _buildStats(isDark),
 
                   const SizedBox(height: 28),
@@ -264,6 +282,8 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
             children: [
               Text(
                 'Manage Customers',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: isDesktop ? 30 : 25,
                   fontWeight: FontWeight.w800,
@@ -275,6 +295,8 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
 
               Text(
                 'View and manage all registered customers.',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 14,
                   color: secondaryTextColor(isDark),
@@ -284,7 +306,9 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
           ),
         ),
 
-        if (isDesktop)
+        if (isDesktop) ...[
+          const SizedBox(width: 15),
+
           Container(
             width: 48,
             height: 48,
@@ -298,6 +322,7 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
               color: accentColor(isDark),
             ),
           ),
+        ],
       ],
     );
   }
@@ -307,7 +332,7 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
   // ============================================================
 
   Widget _buildStats(bool isDark) {
-    final stats = [
+    final List<_CustomerStat> stats = [
       _CustomerStat(
         title: 'Total Customers',
         value: customers.length.toString(),
@@ -333,15 +358,24 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
+        final double availableWidth =
+            constraints.maxWidth;
+
         int columns;
 
-        if (constraints.maxWidth >= 1100) {
+        if (availableWidth >= 1100) {
           columns = 4;
-        } else if (constraints.maxWidth >= 650) {
+        } else if (availableWidth >= 650) {
           columns = 2;
         } else {
           columns = 1;
         }
+
+        // IMPORTANT:
+        // Instead of childAspectRatio, we use mainAxisExtent.
+        // This gives every stats card a safe fixed height.
+        final double cardHeight =
+            columns == 1 ? 92 : 105;
 
         return GridView.builder(
           shrinkWrap: true,
@@ -353,11 +387,9 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
             crossAxisCount: columns,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
-            childAspectRatio: columns == 1
-                ? 4.2
-                : columns == 2
-                    ? 2.1
-                    : 1.9,
+
+            // FIX: prevents vertical overflow
+            mainAxisExtent: cardHeight,
           ),
           itemBuilder: (context, index) {
             return _buildStatCard(
@@ -370,12 +402,23 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
     );
   }
 
+  // ============================================================
+  // STAT CARD - OVERFLOW FIXED
+  // ============================================================
+
   Widget _buildStatCard(
     _CustomerStat stat,
     bool isDark,
   ) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      width: double.infinity,
+
+      // Safe padding
+      padding: const EdgeInsets.symmetric(
+        horizontal: 14,
+        vertical: 12,
+      ),
+
       decoration: BoxDecoration(
         color: cardColor(isDark),
         borderRadius:
@@ -383,32 +426,47 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
         border: Border.all(
           color: dividerColor(isDark),
         ),
+        boxShadow: [
+          if (!isDark)
+            BoxShadow(
+              color:
+                  Colors.black.withOpacity(0.03),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+        ],
       ),
+
       child: Row(
+        crossAxisAlignment:
+            CrossAxisAlignment.center,
         children: [
+          // ICON
           Container(
-            width: 52,
-            height: 52,
+            width: 46,
+            height: 46,
             decoration: BoxDecoration(
               color: iconBackground(isDark),
               borderRadius:
-                  BorderRadius.circular(15),
+                  BorderRadius.circular(13),
             ),
             child: Icon(
               stat.icon,
-              size: 25,
+              size: 22,
               color: accentColor(isDark),
             ),
           ),
 
-          const SizedBox(width: 14),
+          const SizedBox(width: 12),
 
+          // TEXT
           Expanded(
             child: Column(
               mainAxisAlignment:
                   MainAxisAlignment.center,
               crossAxisAlignment:
                   CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   stat.title,
@@ -416,7 +474,9 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
                   overflow:
                       TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 11,
+                    fontWeight:
+                        FontWeight.w500,
                     color:
                         secondaryTextColor(
                       isDark,
@@ -424,15 +484,16 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 5),
+                const SizedBox(height: 4),
 
                 Text(
                   stat.value,
                   maxLines: 1,
+                  softWrap: false,
                   overflow:
                       TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 21,
+                    fontSize: 18,
                     fontWeight:
                         FontWeight.w800,
                     color:
@@ -723,6 +784,10 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
                           children: [
                             Text(
                               customer.name,
+                              maxLines: 1,
+                              overflow:
+                                  TextOverflow
+                                      .ellipsis,
                               style: TextStyle(
                                 fontWeight:
                                     FontWeight
@@ -779,6 +844,10 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
 
                         Text(
                           customer.email,
+                          maxLines: 1,
+                          overflow:
+                              TextOverflow
+                                  .ellipsis,
                           style: TextStyle(
                             fontSize: 11,
                             color:
@@ -873,6 +942,10 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
       ),
     );
   }
+
+  // ============================================================
+  // DATA COLUMN
+  // ============================================================
 
   DataColumn _dataColumn(
     String title,
@@ -984,6 +1057,8 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
                   ],
                 ),
               ),
+
+              const SizedBox(width: 8),
 
               _numberBadge(
                 '${customer.orders}',
@@ -1205,9 +1280,9 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
   ) {
     final bool isDark =
         context
-            .read<AdminThemeProvider>()
-            .themeMode ==
-        ThemeMode.dark;
+                .read<AdminThemeProvider>()
+                .themeMode ==
+            ThemeMode.dark;
 
     showDialog(
       context: context,
@@ -1239,6 +1314,10 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
                       Expanded(
                         child: Text(
                           'Customer Details',
+                          maxLines: 1,
+                          overflow:
+                              TextOverflow
+                                  .ellipsis,
                           style: TextStyle(
                             fontSize: 23,
                             fontWeight:
@@ -1284,6 +1363,9 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
                   Center(
                     child: Text(
                       customer.name,
+                      maxLines: 1,
+                      overflow:
+                          TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight:
@@ -1348,8 +1430,8 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
 
                   _detailSection(
                     isDark: isDark,
-                    icon: Icons
-                        .shopping_bag_outlined,
+                    icon:
+                        Icons.shopping_bag_outlined,
                     title:
                         'Order Information',
                     child: Column(
@@ -1463,14 +1545,19 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
 
               const SizedBox(width: 8),
 
-              Text(
-                title,
-                style: TextStyle(
-                  fontWeight:
-                      FontWeight.bold,
-                  color:
-                      primaryTextColor(
-                    isDark,
+              Expanded(
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow:
+                      TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontWeight:
+                        FontWeight.bold,
+                    color:
+                        primaryTextColor(
+                      isDark,
+                    ),
                   ),
                 ),
               ),
@@ -1504,6 +1591,9 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
           Expanded(
             child: Text(
               title,
+              maxLines: 1,
+              overflow:
+                  TextOverflow.ellipsis,
               style: TextStyle(
                 color:
                     secondaryTextColor(
@@ -1513,11 +1603,14 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
             ),
           ),
 
+          const SizedBox(width: 10),
+
           Flexible(
             child: Text(
               value,
               textAlign:
                   TextAlign.end,
+              maxLines: 2,
               overflow:
                   TextOverflow.ellipsis,
               style: TextStyle(
@@ -1544,9 +1637,9 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
   ) {
     final bool isDark =
         context
-            .read<AdminThemeProvider>()
-            .themeMode ==
-        ThemeMode.dark;
+                .read<AdminThemeProvider>()
+                .themeMode ==
+            ThemeMode.dark;
 
     showDialog(
       context: context,
@@ -1590,6 +1683,9 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
               Expanded(
                 child: Text(
                   'Delete Customer?',
+                  maxLines: 1,
+                  overflow:
+                      TextOverflow.ellipsis,
                   style: TextStyle(
                     color:
                         primaryTextColor(
@@ -1675,9 +1771,9 @@ class _AdminCustomersScreenState extends State<AdminCustomersScreen> {
   }
 }
 
-// ============================================================
+// ================================================================
 // CUSTOMER MODEL
-// ============================================================
+// ================================================================
 
 class CustomerItem {
   final String id;
@@ -1701,9 +1797,9 @@ class CustomerItem {
   });
 }
 
-// ============================================================
+// ================================================================
 // CUSTOMER STAT MODEL
-// ============================================================
+// ================================================================
 
 class _CustomerStat {
   final String title;

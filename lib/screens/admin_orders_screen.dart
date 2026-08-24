@@ -12,8 +12,7 @@ class AdminOrdersScreen extends StatefulWidget {
 }
 
 class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
-  final TextEditingController searchController =
-      TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   String searchQuery = '';
 
@@ -119,27 +118,21 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
   // ============================================================
 
   int get pendingOrders {
-    return orders
-        .where((order) => order.status == 'Pending')
-        .length;
+    return orders.where((order) => order.status == 'Pending').length;
   }
 
   int get processingOrders {
-    return orders
-        .where((order) => order.status == 'Processing')
-        .length;
+    return orders.where((order) => order.status == 'Processing').length;
   }
 
   int get completedOrders {
-    return orders
-        .where((order) => order.status == 'Completed')
-        .length;
+    return orders.where((order) => order.status == 'Completed').length;
   }
 
   double get totalRevenue {
     return orders
         .where((order) => order.status != 'Cancelled')
-        .fold(
+        .fold<double>(
           0,
           (sum, order) => sum + order.price,
         );
@@ -156,9 +149,7 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
   }
 
   Color cardColor(bool isDark) {
-    return isDark
-        ? const Color(0xFF1B1B1B)
-        : Colors.white;
+    return isDark ? const Color(0xFF1B1B1B) : Colors.white;
   }
 
   Color secondaryCardColor(bool isDark) {
@@ -168,21 +159,15 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
   }
 
   Color primaryTextColor(bool isDark) {
-    return isDark
-        ? Colors.white
-        : AppColors.brown;
+    return isDark ? Colors.white : AppColors.brown;
   }
 
   Color secondaryTextColor(bool isDark) {
-    return isDark
-        ? Colors.white70
-        : AppColors.grey;
+    return isDark ? Colors.white70 : AppColors.grey;
   }
 
   Color accentColor(bool isDark) {
-    return isDark
-        ? AppColors.gold
-        : AppColors.brown;
+    return isDark ? AppColors.gold : AppColors.brown;
   }
 
   Color iconBackground(bool isDark) {
@@ -192,9 +177,7 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
   }
 
   Color dividerColor(bool isDark) {
-    return isDark
-        ? Colors.white12
-        : Colors.black12;
+    return isDark ? Colors.white12 : Colors.black12;
   }
 
   // ============================================================
@@ -210,18 +193,14 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
         child,
       ) {
         final bool isDark =
-            themeProvider.themeMode ==
-                ThemeMode.dark;
+            themeProvider.themeMode == ThemeMode.dark;
 
-        final double width =
-            MediaQuery.of(context).size.width;
+        final double width = MediaQuery.of(context).size.width;
 
-        final bool isDesktop =
-            width >= 1000;
+        final bool isDesktop = width >= 1000;
 
         return Scaffold(
-          backgroundColor:
-              backgroundColor(isDark),
+          backgroundColor: backgroundColor(isDark),
 
           // ======================================================
           // APP BAR
@@ -229,10 +208,8 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
 
           appBar: AppBar(
             elevation: 0,
-            backgroundColor:
-                cardColor(isDark),
-            surfaceTintColor:
-                Colors.transparent,
+            backgroundColor: cardColor(isDark),
+            surfaceTintColor: Colors.transparent,
 
             leading: IconButton(
               onPressed: () {
@@ -240,22 +217,18 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
               },
               icon: Icon(
                 Icons.arrow_back_rounded,
-                color:
-                    primaryTextColor(isDark),
+                color: primaryTextColor(isDark),
               ),
             ),
 
             title: Text(
               'Orders',
               style: TextStyle(
-                color:
-                    primaryTextColor(isDark),
-                fontWeight:
-                    FontWeight.bold,
+                color: primaryTextColor(isDark),
+                fontWeight: FontWeight.bold,
               ),
             ),
 
-            // Dark/Light Mode button removed
             actions: const [
               SizedBox(width: 8),
             ],
@@ -268,11 +241,10 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
           body: SafeArea(
             child: SingleChildScrollView(
               padding: EdgeInsets.all(
-                isDesktop ? 30 : 18,
+                isDesktop ? 30 : 16,
               ),
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildHeader(
                     isDesktop,
@@ -310,22 +282,25 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
     bool isDesktop,
     bool isDark,
   ) {
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+    return LayoutBuilder(
+      builder: (
+        context,
+        constraints,
+      ) {
+        final bool compact = constraints.maxWidth < 600;
+
+        if (compact) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Manage Orders',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize:
-                      isDesktop ? 30 : 25,
-                  fontWeight:
-                      FontWeight.w800,
-                  color:
-                      primaryTextColor(isDark),
+                  fontSize: 25,
+                  fontWeight: FontWeight.w800,
+                  color: primaryTextColor(isDark),
                 ),
               ),
 
@@ -333,38 +308,75 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
 
               Text(
                 'View and manage all customer orders.',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 14,
-                  color:
-                      secondaryTextColor(isDark),
+                  color: secondaryTextColor(isDark),
                 ),
               ),
             ],
-          ),
-        ),
+          );
+        }
 
-        if (isDesktop)
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color:
-                  cardColor(isDark),
-              borderRadius:
-                  BorderRadius.circular(14),
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Manage Orders',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: isDesktop ? 30 : 25,
+                      fontWeight: FontWeight.w800,
+                      color: primaryTextColor(isDark),
+                    ),
+                  ),
+
+                  const SizedBox(height: 7),
+
+                  Text(
+                    'View and manage all customer orders.',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: secondaryTextColor(isDark),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            child: Icon(
-              Icons.shopping_bag_outlined,
-              color:
-                  accentColor(isDark),
-            ),
-          ),
-      ],
+
+            if (isDesktop) ...[
+              const SizedBox(width: 20),
+
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: cardColor(isDark),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Icon(
+                  Icons.shopping_bag_outlined,
+                  color: accentColor(isDark),
+                ),
+              ),
+            ],
+          ],
+        );
+      },
     );
   }
 
   // ============================================================
   // STATS
+  // FIXED OVERFLOW VERSION
   // ============================================================
 
   Widget _buildStats(bool isDark) {
@@ -372,27 +384,22 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
       _OrderStat(
         title: 'Total Orders',
         value: orders.length.toString(),
-        icon:
-            Icons.shopping_bag_outlined,
+        icon: Icons.shopping_bag_outlined,
       ),
       _OrderStat(
         title: 'Pending',
         value: pendingOrders.toString(),
-        icon:
-            Icons.pending_actions_rounded,
+        icon: Icons.pending_actions_rounded,
       ),
       _OrderStat(
         title: 'Processing',
         value: processingOrders.toString(),
-        icon:
-            Icons.sync_rounded,
+        icon: Icons.sync_rounded,
       ),
       _OrderStat(
         title: 'Revenue',
-        value:
-            'Rs ${totalRevenue.toStringAsFixed(0)}',
-        icon:
-            Icons.payments_outlined,
+        value: 'Rs ${totalRevenue.toStringAsFixed(0)}',
+        icon: Icons.payments_outlined,
       ),
     ];
 
@@ -401,43 +408,39 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
         context,
         constraints,
       ) {
+        final double availableWidth = constraints.maxWidth;
+
         int columns;
 
-        if (constraints.maxWidth >= 1100) {
+        if (availableWidth >= 1200) {
           columns = 4;
-        } else if (constraints.maxWidth >= 650) {
+        } else if (availableWidth >= 700) {
           columns = 2;
         } else {
           columns = 1;
         }
 
-        return GridView.builder(
-          shrinkWrap: true,
-          physics:
-              const NeverScrollableScrollPhysics(),
-          itemCount: stats.length,
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount:
-                columns,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            childAspectRatio:
-                columns == 1
-                    ? 4.2
-                    : columns == 2
-                        ? 2.1
-                        : 1.9,
-          ),
-          itemBuilder: (
-            context,
-            index,
-          ) {
-            return _buildStatCard(
-              stats[index],
-              isDark,
+        const double spacing = 16;
+
+        final double cardWidth = columns == 1
+            ? availableWidth
+            : (availableWidth -
+                    ((columns - 1) * spacing)) /
+                columns;
+
+        return Wrap(
+          spacing: spacing,
+          runSpacing: spacing,
+          children: stats.map((stat) {
+            return SizedBox(
+              width: cardWidth,
+              child: _buildStatCard(
+                stat,
+                isDark,
+                cardWidth,
+              ),
             );
-          },
+          }).toList(),
         );
       },
     );
@@ -445,65 +448,66 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
 
   // ============================================================
   // STAT CARD
+  // OVERFLOW SAFE
   // ============================================================
 
   Widget _buildStatCard(
     _OrderStat stat,
     bool isDark,
+    double cardWidth,
   ) {
+    final bool verySmall = cardWidth < 260;
+
     return Container(
-      padding:
-          const EdgeInsets.all(18),
+      width: double.infinity,
+      constraints: const BoxConstraints(
+        minHeight: 92,
+      ),
+      padding: EdgeInsets.all(
+        verySmall ? 13 : 17,
+      ),
       decoration: BoxDecoration(
-        color:
-            cardColor(isDark),
-        borderRadius:
-            BorderRadius.circular(18),
+        color: cardColor(isDark),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color:
-              dividerColor(isDark),
+          color: dividerColor(isDark),
         ),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 52,
-            height: 52,
-            decoration:
-                BoxDecoration(
-              color:
-                  iconBackground(isDark),
-              borderRadius:
-                  BorderRadius.circular(15),
+            width: verySmall ? 44 : 52,
+            height: verySmall ? 44 : 52,
+            decoration: BoxDecoration(
+              color: iconBackground(isDark),
+              borderRadius: BorderRadius.circular(
+                verySmall ? 13 : 15,
+              ),
             ),
             child: Icon(
               stat.icon,
-              size: 25,
-              color:
-                  accentColor(isDark),
+              size: verySmall ? 21 : 25,
+              color: accentColor(isDark),
             ),
           ),
 
-          const SizedBox(width: 14),
+          SizedBox(
+            width: verySmall ? 10 : 14,
+          ),
 
           Expanded(
             child: Column(
-              mainAxisAlignment:
-                  MainAxisAlignment.center,
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   stat.title,
                   maxLines: 1,
-                  overflow:
-                      TextOverflow.ellipsis,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 12,
-                    color:
-                        secondaryTextColor(
-                      isDark,
-                    ),
+                    fontSize: verySmall ? 11 : 12,
+                    color: secondaryTextColor(isDark),
                   ),
                 ),
 
@@ -512,16 +516,11 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                 Text(
                   stat.value,
                   maxLines: 1,
-                  overflow:
-                      TextOverflow.ellipsis,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 21,
-                    fontWeight:
-                        FontWeight.w800,
-                    color:
-                        primaryTextColor(
-                      isDark,
-                    ),
+                    fontSize: verySmall ? 18 : 21,
+                    fontWeight: FontWeight.w800,
+                    color: primaryTextColor(isDark),
                   ),
                 ),
               ],
@@ -536,17 +535,13 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
   // SEARCH BAR
   // ============================================================
 
-  Widget _buildSearchBar(
-    bool isDark,
-  ) {
-    final Color background =
-        isDark
-            ? const Color(0xFF242424)
-            : Colors.white;
+  Widget _buildSearchBar(bool isDark) {
+    final Color background = isDark
+        ? const Color(0xFF242424)
+        : Colors.white;
 
     return TextField(
-      controller:
-          searchController,
+      controller: searchController,
 
       onChanged: (value) {
         setState(() {
@@ -555,12 +550,10 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
       },
 
       style: TextStyle(
-        color:
-            primaryTextColor(isDark),
+        color: primaryTextColor(isDark),
       ),
 
-      decoration:
-          InputDecoration(
+      decoration: InputDecoration(
         filled: true,
         fillColor: background,
 
@@ -568,68 +561,49 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
             'Search by order ID, customer, cake or status...',
 
         hintStyle: TextStyle(
-          color:
-              secondaryTextColor(
-            isDark,
-          ),
+          color: secondaryTextColor(isDark),
         ),
 
         prefixIcon: Icon(
           Icons.search_rounded,
-          color:
-              accentColor(isDark),
+          color: accentColor(isDark),
         ),
 
-        suffixIcon:
-            searchQuery.isNotEmpty
-                ? IconButton(
-                    onPressed: () {
-                      searchController
-                          .clear();
+        suffixIcon: searchQuery.isNotEmpty
+            ? IconButton(
+                onPressed: () {
+                  searchController.clear();
 
-                      setState(() {
-                        searchQuery = '';
-                      });
-                    },
-                    icon: Icon(
-                      Icons.close_rounded,
-                      color:
-                          secondaryTextColor(
-                        isDark,
-                      ),
-                    ),
-                  )
-                : null,
+                  setState(() {
+                    searchQuery = '';
+                  });
+                },
+                icon: Icon(
+                  Icons.close_rounded,
+                  color: secondaryTextColor(isDark),
+                ),
+              )
+            : null,
 
-        contentPadding:
-            const EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           vertical: 17,
+          horizontal: 16,
         ),
 
-        border:
-            OutlineInputBorder(
-          borderRadius:
-              BorderRadius.circular(16),
-          borderSide:
-              BorderSide.none,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
         ),
 
-        enabledBorder:
-            OutlineInputBorder(
-          borderRadius:
-              BorderRadius.circular(16),
-          borderSide:
-              BorderSide.none,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
         ),
 
-        focusedBorder:
-            OutlineInputBorder(
-          borderRadius:
-              BorderRadius.circular(16),
-          borderSide:
-              BorderSide(
-            color:
-                accentColor(isDark),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(
+            color: accentColor(isDark),
             width: 1.5,
           ),
         ),
@@ -645,43 +619,36 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
     bool isDesktop,
     bool isDark,
   ) {
-    final filtered =
-        filteredOrders;
+    final filtered = filteredOrders;
 
     if (filtered.isEmpty) {
       return Container(
-        width:
-            double.infinity,
-        padding:
-            const EdgeInsets.all(60),
-        decoration:
-            BoxDecoration(
-          color:
-              cardColor(isDark),
-          borderRadius:
-              BorderRadius.circular(20),
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 25,
+          vertical: 55,
+        ),
+        decoration: BoxDecoration(
+          color: cardColor(isDark),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
           children: [
             Icon(
               Icons.search_off_rounded,
               size: 55,
-              color:
-                  accentColor(isDark),
+              color: accentColor(isDark),
             ),
 
             const SizedBox(height: 15),
 
             Text(
               'No orders found',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
-                fontWeight:
-                    FontWeight.bold,
-                color:
-                    primaryTextColor(
-                  isDark,
-                ),
+                fontWeight: FontWeight.bold,
+                color: primaryTextColor(isDark),
               ),
             ),
           ],
@@ -697,15 +664,12 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
     }
 
     return Column(
-      children:
-          filtered.map((order) {
+      children: filtered.map((order) {
         return Padding(
-          padding:
-              const EdgeInsets.only(
+          padding: const EdgeInsets.only(
             bottom: 15,
           ),
-          child:
-              _buildMobileCard(
+          child: _buildMobileCard(
             order,
             isDark,
           ),
@@ -723,43 +687,28 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
     bool isDark,
   ) {
     return Container(
-      width:
-          double.infinity,
-      decoration:
-          BoxDecoration(
-        color:
-            cardColor(isDark),
-        borderRadius:
-            BorderRadius.circular(20),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: cardColor(isDark),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color:
-              dividerColor(isDark),
+          color: dividerColor(isDark),
         ),
       ),
       child: ClipRRect(
-        borderRadius:
-            BorderRadius.circular(20),
-        child:
-            SingleChildScrollView(
-          scrollDirection:
-              Axis.horizontal,
+        borderRadius: BorderRadius.circular(20),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
           child: DataTable(
-            headingRowHeight:
-                58,
-            dataRowMinHeight:
-                72,
-            dataRowMaxHeight:
-                85,
-            columnSpacing:
-                35,
-            horizontalMargin:
-                20,
+            headingRowHeight: 58,
+            dataRowMinHeight: 72,
+            dataRowMaxHeight: 85,
+            columnSpacing: 30,
+            horizontalMargin: 18,
 
             headingRowColor:
                 WidgetStateProperty.all(
-              secondaryCardColor(
-                isDark,
-              ),
+              secondaryCardColor(isDark),
             ),
 
             dataRowColor:
@@ -768,72 +717,47 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
             ),
 
             columns: [
-              _column(
-                'Order',
-                isDark,
-              ),
-              _column(
-                'Customer',
-                isDark,
-              ),
-              _column(
-                'Cake',
-                isDark,
-              ),
-              _column(
-                'Price',
-                isDark,
-              ),
-              _column(
-                'Status',
-                isDark,
-              ),
-              _column(
-                'Date',
-                isDark,
-              ),
-              _column(
-                'Action',
-                isDark,
-              ),
+              _column('Order', isDark),
+              _column('Customer', isDark),
+              _column('Cake', isDark),
+              _column('Price', isDark),
+              _column('Status', isDark),
+              _column('Date', isDark),
+              _column('Action', isDark),
             ],
 
-            rows:
-                filtered.map(
-              (order) {
-                return DataRow(
-                  cells: [
-                    DataCell(
-                      Text(
-                        order.id,
-                        style:
-                            TextStyle(
-                          fontWeight:
-                              FontWeight.bold,
-                          color:
-                              primaryTextColor(
-                            isDark,
-                          ),
-                        ),
+            rows: filtered.map((order) {
+              return DataRow(
+                cells: [
+                  DataCell(
+                    Text(
+                      order.id,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: primaryTextColor(isDark),
                       ),
                     ),
+                  ),
 
-                    DataCell(
-                      Column(
+                  DataCell(
+                    SizedBox(
+                      width: 150,
+                      child: Column(
                         mainAxisAlignment:
-                            MainAxisAlignment
-                                .center,
+                            MainAxisAlignment.center,
                         crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
+                            CrossAxisAlignment.start,
                         children: [
                           Text(
                             order.customer,
-                            style:
-                                TextStyle(
+                            maxLines: 1,
+                            overflow:
+                                TextOverflow.ellipsis,
+                            style: TextStyle(
                               fontWeight:
-                                  FontWeight
-                                      .w600,
+                                  FontWeight.w600,
                               color:
                                   primaryTextColor(
                                 isDark,
@@ -842,8 +766,10 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                           ),
                           Text(
                             order.phone,
-                            style:
-                                TextStyle(
+                            maxLines: 1,
+                            overflow:
+                                TextOverflow.ellipsis,
+                            style: TextStyle(
                               fontSize: 11,
                               color:
                                   secondaryTextColor(
@@ -854,12 +780,17 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                         ],
                       ),
                     ),
+                  ),
 
-                    DataCell(
-                      Text(
+                  DataCell(
+                    SizedBox(
+                      width: 130,
+                      child: Text(
                         order.cake,
-                        style:
-                            TextStyle(
+                        maxLines: 1,
+                        overflow:
+                            TextOverflow.ellipsis,
+                        style: TextStyle(
                           color:
                               primaryTextColor(
                             isDark,
@@ -867,65 +798,53 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
                         ),
                       ),
                     ),
+                  ),
 
-                    DataCell(
-                      Text(
-                        'Rs ${order.price.toStringAsFixed(0)}',
-                        style:
-                            TextStyle(
-                          fontWeight:
-                              FontWeight.bold,
-                          color:
-                              primaryTextColor(
-                            isDark,
-                          ),
-                        ),
+                  DataCell(
+                    Text(
+                      'Rs ${order.price.toStringAsFixed(0)}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: primaryTextColor(isDark),
                       ),
                     ),
+                  ),
 
-                    DataCell(
-                      _statusBadge(
-                        order.status,
-                        isDark,
+                  DataCell(
+                    _statusBadge(
+                      order.status,
+                      isDark,
+                    ),
+                  ),
+
+                  DataCell(
+                    Text(
+                      order.date,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: primaryTextColor(isDark),
                       ),
                     ),
+                  ),
 
-                    DataCell(
-                      Text(
-                        order.date,
-                        style:
-                            TextStyle(
-                          color:
-                              primaryTextColor(
-                            isDark,
-                          ),
-                        ),
+                  DataCell(
+                    IconButton(
+                      tooltip: 'View Details',
+                      onPressed: () {
+                        _showOrderDetails(order);
+                      },
+                      icon: Icon(
+                        Icons.visibility_outlined,
+                        color: accentColor(isDark),
                       ),
                     ),
-
-                    DataCell(
-                      IconButton(
-                        tooltip:
-                            'View Details',
-                        onPressed: () {
-                          _showOrderDetails(
-                            order,
-                          );
-                        },
-                        icon: Icon(
-                          Icons
-                              .visibility_outlined,
-                          color:
-                              accentColor(
-                            isDark,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ).toList(),
+                  ),
+                ],
+              );
+            }).toList(),
           ),
         ),
       ),
@@ -944,10 +863,8 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
       label: Text(
         title,
         style: TextStyle(
-          fontWeight:
-              FontWeight.bold,
-          color:
-              primaryTextColor(isDark),
+          fontWeight: FontWeight.bold,
+          color: primaryTextColor(isDark),
         ),
       ),
     );
@@ -965,45 +882,38 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
 
     switch (status) {
       case 'Completed':
-        color =
-            Colors.green;
+        color = Colors.green;
         break;
 
       case 'Processing':
-        color =
-            Colors.orange;
+        color = Colors.orange;
         break;
 
       case 'Cancelled':
-        color =
-            Colors.red;
+        color = Colors.red;
         break;
 
       default:
-        color =
-            accentColor(isDark);
+        color = accentColor(isDark);
     }
 
     return Container(
-      padding:
-          const EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 10,
         vertical: 6,
       ),
-      decoration:
-          BoxDecoration(
-        color:
-            color.withOpacity(0.12),
-        borderRadius:
-            BorderRadius.circular(9),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(9),
       ),
       child: Text(
         status,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
           color: color,
           fontSize: 11,
-          fontWeight:
-              FontWeight.bold,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
@@ -1018,43 +928,34 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
     bool isDark,
   ) {
     return Container(
-      padding:
-          const EdgeInsets.all(17),
-      decoration:
-          BoxDecoration(
-        color:
-            cardColor(isDark),
-        borderRadius:
-            BorderRadius.circular(20),
+      width: double.infinity,
+      padding: const EdgeInsets.all(17),
+      decoration: BoxDecoration(
+        color: cardColor(isDark),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color:
-              dividerColor(isDark),
+          color: dividerColor(isDark),
         ),
       ),
       child: Column(
         children: [
+          // ======================================================
+          // TOP ROW
+          // ======================================================
+
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 width: 50,
                 height: 50,
-                decoration:
-                    BoxDecoration(
-                  color:
-                      iconBackground(
-                    isDark,
-                  ),
-                  borderRadius:
-                      BorderRadius.circular(
-                    14,
-                  ),
+                decoration: BoxDecoration(
+                  color: iconBackground(isDark),
+                  borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
                   Icons.cake_rounded,
-                  color:
-                      accentColor(
-                    isDark,
-                  ),
+                  color: accentColor(isDark),
                 ),
               ),
 
@@ -1063,20 +964,17 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
               Expanded(
                 child: Column(
                   crossAxisAlignment:
-                      CrossAxisAlignment
-                          .start,
+                      CrossAxisAlignment.start,
                   children: [
                     Text(
                       order.customer,
-                      style:
-                          TextStyle(
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
                         fontSize: 16,
-                        fontWeight:
-                            FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                         color:
-                            primaryTextColor(
-                          isDark,
-                        ),
+                            primaryTextColor(isDark),
                       ),
                     ),
 
@@ -1084,31 +982,40 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
 
                     Text(
                       order.id,
-                      style:
-                          TextStyle(
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
                         fontSize: 12,
                         color:
-                            secondaryTextColor(
-                          isDark,
-                        ),
+                            secondaryTextColor(isDark),
                       ),
                     ),
                   ],
                 ),
               ),
 
-              _statusBadge(
-                order.status,
-                isDark,
+              const SizedBox(width: 8),
+
+              Flexible(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: _statusBadge(
+                    order.status,
+                    isDark,
+                  ),
+                ),
               ),
             ],
           ),
 
           Divider(
             height: 28,
-            color:
-                dividerColor(isDark),
+            color: dividerColor(isDark),
           ),
+
+          // ======================================================
+          // INFO
+          // ======================================================
 
           _infoRow(
             Icons.cake_outlined,
@@ -1146,46 +1053,33 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
 
           const SizedBox(height: 16),
 
+          // ======================================================
+          // VIEW DETAILS
+          // ======================================================
+
           SizedBox(
-            width:
-                double.infinity,
+            width: double.infinity,
             height: 45,
-            child:
-                OutlinedButton.icon(
+            child: OutlinedButton.icon(
               onPressed: () {
-                _showOrderDetails(
-                  order,
-                );
+                _showOrderDetails(order);
               },
-              icon:
-                  const Icon(
-                Icons
-                    .visibility_outlined,
+              icon: const Icon(
+                Icons.visibility_outlined,
                 size: 18,
               ),
-              label:
-                  const Text(
+              label: const Text(
                 'View Details',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              style:
-                  OutlinedButton.styleFrom(
-                foregroundColor:
-                    accentColor(
-                  isDark,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: accentColor(isDark),
+                side: BorderSide(
+                  color: accentColor(isDark),
                 ),
-                side:
-                    BorderSide(
-                  color:
-                      accentColor(
-                    isDark,
-                  ),
-                ),
-                shape:
-                    RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    12,
-                  ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
@@ -1206,23 +1100,21 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
     bool isDark,
   ) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Icon(
           icon,
           size: 18,
-          color:
-              accentColor(isDark),
+          color: accentColor(isDark),
         ),
 
         const SizedBox(width: 9),
 
         Text(
           '$title:',
+          maxLines: 1,
           style: TextStyle(
-            color:
-                secondaryTextColor(
-              isDark,
-            ),
+            color: secondaryTextColor(isDark),
             fontSize: 13,
           ),
         ),
@@ -1233,15 +1125,11 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
           child: Text(
             value,
             maxLines: 1,
-            overflow:
-                TextOverflow.ellipsis,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.end,
             style: TextStyle(
-              fontWeight:
-                  FontWeight.w600,
-              color:
-                  primaryTextColor(
-                isDark,
-              ),
+              fontWeight: FontWeight.w600,
+              color: primaryTextColor(isDark),
             ),
           ),
         ),
@@ -1257,10 +1145,7 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
     OrderItem order,
   ) {
     final bool isDark =
-        context
-                .read<
-                    AdminThemeProvider>()
-                .themeMode ==
+        context.read<AdminThemeProvider>().themeMode ==
             ThemeMode.dark;
 
     showDialog(
@@ -1268,103 +1153,162 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
       builder: (
         dialogContext,
       ) {
-        return AlertDialog(
-          backgroundColor:
-              cardColor(isDark),
-
-          shape:
-              RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(
-              22,
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.symmetric(
+            horizontal: 18,
+            vertical: 24,
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 500,
+              maxHeight: 650,
             ),
-          ),
-
-          title: Text(
-            'Order Details',
-            style: TextStyle(
-              color:
-                  primaryTextColor(
-                isDark,
+            child: Container(
+              decoration: BoxDecoration(
+                color: cardColor(isDark),
+                borderRadius: BorderRadius.circular(22),
               ),
-              fontWeight:
-                  FontWeight.bold,
-            ),
-          ),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(22),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // ==================================================
+                    // DIALOG HEADER
+                    // ==================================================
 
-          content: Column(
-            mainAxisSize:
-                MainAxisSize.min,
-            children: [
-              _detailRow(
-                'Order ID',
-                order.id,
-                isDark,
-              ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Order Details',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 21,
+                              color:
+                                  primaryTextColor(isDark),
+                              fontWeight:
+                                  FontWeight.bold,
+                            ),
+                          ),
+                        ),
 
-              _detailRow(
-                'Customer',
-                order.customer,
-                isDark,
-              ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(
+                              dialogContext,
+                            );
+                          },
+                          icon: Icon(
+                            Icons.close_rounded,
+                            color:
+                                secondaryTextColor(
+                              isDark,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
 
-              _detailRow(
-                'Phone',
-                order.phone,
-                isDark,
-              ),
+                    const SizedBox(height: 8),
 
-              _detailRow(
-                'Cake',
-                order.cake,
-                isDark,
-              ),
+                    Divider(
+                      color: dividerColor(isDark),
+                    ),
 
-              _detailRow(
-                'Quantity',
-                order.quantity
-                    .toString(),
-                isDark,
-              ),
+                    const SizedBox(height: 15),
 
-              _detailRow(
-                'Price',
-                'Rs ${order.price.toStringAsFixed(0)}',
-                isDark,
-              ),
+                    // ==================================================
+                    // DETAILS
+                    // ==================================================
 
-              _detailRow(
-                'Status',
-                order.status,
-                isDark,
-              ),
+                    _detailRow(
+                      'Order ID',
+                      order.id,
+                      isDark,
+                    ),
 
-              _detailRow(
-                'Date',
-                order.date,
-                isDark,
-              ),
-            ],
-          ),
+                    _detailRow(
+                      'Customer',
+                      order.customer,
+                      isDark,
+                    ),
 
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(
-                  dialogContext,
-                );
-              },
-              child: Text(
-                'Close',
-                style: TextStyle(
-                  color:
-                      accentColor(
-                    isDark,
-                  ),
+                    _detailRow(
+                      'Phone',
+                      order.phone,
+                      isDark,
+                    ),
+
+                    _detailRow(
+                      'Cake',
+                      order.cake,
+                      isDark,
+                    ),
+
+                    _detailRow(
+                      'Quantity',
+                      order.quantity.toString(),
+                      isDark,
+                    ),
+
+                    _detailRow(
+                      'Price',
+                      'Rs ${order.price.toStringAsFixed(0)}',
+                      isDark,
+                    ),
+
+                    _detailRow(
+                      'Status',
+                      order.status,
+                      isDark,
+                    ),
+
+                    _detailRow(
+                      'Date',
+                      order.date,
+                      isDark,
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 45,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(
+                            dialogContext,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              accentColor(isDark),
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape:
+                              RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(
+                              12,
+                            ),
+                          ),
+                        ),
+                        child: const Text(
+                          'Close',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
+          ),
         );
       },
     );
@@ -1380,36 +1324,36 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
     bool isDark,
   ) {
     return Padding(
-      padding:
-          const EdgeInsets.only(
-        bottom: 12,
+      padding: const EdgeInsets.only(
+        bottom: 14,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
+          SizedBox(
+            width: 90,
             child: Text(
               title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color:
-                    secondaryTextColor(
-                  isDark,
-                ),
+                color: secondaryTextColor(isDark),
+                fontSize: 13,
               ),
             ),
           ),
 
-          Flexible(
+          const SizedBox(width: 10),
+
+          Expanded(
             child: Text(
               value,
-              textAlign:
-                  TextAlign.end,
+              textAlign: TextAlign.end,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontWeight:
-                    FontWeight.bold,
-                color:
-                    primaryTextColor(
-                  isDark,
-                ),
+                fontWeight: FontWeight.bold,
+                color: primaryTextColor(isDark),
               ),
             ),
           ),

@@ -148,21 +148,23 @@ class _AdminDashboardState extends State<AdminDashboard> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(22),
           ),
-
           title: Row(
             children: [
               Container(
                 width: 45,
                 height: 45,
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(isDark ? 0.15 : 0.08),
+                  color: Colors.red.withOpacity(
+                    isDark ? 0.15 : 0.08,
+                  ),
                   borderRadius: BorderRadius.circular(13),
                 ),
-                child: const Icon(Icons.logout_rounded, color: Colors.red),
+                child: const Icon(
+                  Icons.logout_rounded,
+                  color: Colors.red,
+                ),
               ),
-
               const SizedBox(width: 12),
-
               Expanded(
                 child: Text(
                   'Logout',
@@ -174,46 +176,28 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
             ],
           ),
-
           content: Text(
             'Are you sure you want to logout from Admin Dashboard?',
-            style: TextStyle(color: secondaryText(isDark), height: 1.4),
+            style: TextStyle(
+              color: secondaryText(isDark),
+              height: 1.4,
+            ),
           ),
-
           actions: [
-            // ==================================================
-            // CANCEL
-            // ==================================================
             TextButton(
               onPressed: () {
                 Navigator.pop(dialogContext);
               },
               child: Text(
                 'Cancel',
-                style: TextStyle(color: secondaryText(isDark)),
+                style: TextStyle(
+                  color: secondaryText(isDark),
+                ),
               ),
             ),
-
-            // ==================================================
-            // LOGOUT
-            // ==================================================
             ElevatedButton(
               onPressed: () {
-                // Close logout dialog
                 Navigator.pop(dialogContext);
-
-                // ==================================================
-                // IMPORTANT
-                // ==================================================
-                // Admin logout ke baad USER LOGIN par nahi jana.
-                //
-                // Hum ROLE SELECTION SCREEN par jayenge jahan:
-                // 1. Continue as User
-                // 2. Continue as Admin
-                //
-                // Purani navigation stack completely remove
-                // kar di jayegi.
-                // ==================================================
 
                 Navigator.pushAndRemoveUntil(
                   context,
@@ -223,20 +207,19 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   (route) => false,
                 );
               },
-
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
                 elevation: 0,
-
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(11),
                 ),
               ),
-
               child: const Text(
                 'Logout',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -278,7 +261,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
       return;
     }
 
-    await Navigator.push(context, MaterialPageRoute(builder: (_) => page!));
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => page!,
+      ),
+    );
 
     if (!mounted) {
       return;
@@ -293,7 +281,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
   // SELECT MENU
   // ============================================================
 
-  void selectMenu(int index, {bool isDrawer = false}) {
+  void selectMenu(
+    int index, {
+    bool isDrawer = false,
+  }) {
     if (index == 0) {
       setState(() {
         selectedIndex = 0;
@@ -331,7 +322,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (sheetContext) {
-        return notificationSheet(sheetContext, isDark);
+        return notificationSheet(
+          sheetContext,
+          isDark,
+        );
       },
     );
   }
@@ -340,43 +334,45 @@ class _AdminDashboardState extends State<AdminDashboard> {
   // NOTIFICATION SHEET
   // ============================================================
 
-  Widget notificationSheet(BuildContext sheetContext, bool isDark) {
+  Widget notificationSheet(
+    BuildContext sheetContext,
+    bool isDark,
+  ) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.72,
-
       decoration: BoxDecoration(
         color: backgroundColor(isDark),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(25),
+        ),
       ),
-
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 18, 15, 12),
-
+            padding: const EdgeInsets.fromLTRB(
+              20,
+              18,
+              15,
+              12,
+            ),
             child: Row(
               children: [
                 Container(
                   width: 45,
                   height: 45,
-
                   decoration: BoxDecoration(
                     color: iconBackground(isDark),
                     borderRadius: BorderRadius.circular(13),
                   ),
-
                   child: Icon(
                     Icons.notifications_rounded,
                     color: accentColor(isDark),
                   ),
                 ),
-
                 const SizedBox(width: 12),
-
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-
                     children: [
                       Text(
                         'Notifications',
@@ -386,9 +382,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           color: primaryText(isDark),
                         ),
                       ),
-
                       const SizedBox(height: 3),
-
                       Text(
                         '$unreadNotificationCount unread notifications',
                         style: TextStyle(
@@ -399,7 +393,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     ],
                   ),
                 ),
-
                 TextButton(
                   onPressed: () {
                     setState(() {
@@ -410,7 +403,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
                     Navigator.pop(sheetContext);
                   },
-
                   child: Text(
                     'Mark all read',
                     style: TextStyle(
@@ -423,9 +415,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ],
             ),
           ),
-
-          Divider(color: isDark ? Colors.white10 : Colors.black12),
-
+          Divider(
+            color: isDark ? Colors.white10 : Colors.black12,
+          ),
           Expanded(
             child: notifications.isEmpty
                 ? emptyNotifications(isDark)
@@ -433,7 +425,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     padding: const EdgeInsets.all(15),
                     itemCount: notifications.length,
                     itemBuilder: (context, index) {
-                      return notificationItem(index, isDark, sheetContext);
+                      return notificationItem(
+                        index,
+                        isDark,
+                        sheetContext,
+                      );
                     },
                   ),
           ),
@@ -450,16 +446,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-
         children: [
           Icon(
             Icons.notifications_off_outlined,
             size: 55,
             color: secondaryText(isDark),
           ),
-
           const SizedBox(height: 12),
-
           Text(
             'No notifications',
             style: TextStyle(
@@ -477,14 +470,17 @@ class _AdminDashboardState extends State<AdminDashboard> {
   // NOTIFICATION ITEM
   // ============================================================
 
-  Widget notificationItem(int index, bool isDark, BuildContext sheetContext) {
+  Widget notificationItem(
+    int index,
+    bool isDark,
+    BuildContext sheetContext,
+  ) {
     final item = notifications[index];
 
     final bool isRead = item['read'] == true;
 
     return InkWell(
       borderRadius: BorderRadius.circular(16),
-
       onTap: () {
         setState(() {
           notifications[index]['read'] = true;
@@ -492,56 +488,44 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
         Navigator.pop(sheetContext);
       },
-
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
-
         padding: const EdgeInsets.all(14),
-
         decoration: BoxDecoration(
           color: isRead
               ? cardColor(isDark)
               : isDark
-              ? const Color(0xFF2A241F)
-              : const Color(0xFFFFF8F1),
-
+                  ? const Color(0xFF2A241F)
+                  : const Color(0xFFFFF8F1),
           borderRadius: BorderRadius.circular(16),
-
           border: Border.all(
             color: isRead
                 ? isDark
-                      ? Colors.white10
-                      : Colors.black12
+                    ? Colors.white10
+                    : Colors.black12
                 : accentColor(isDark),
           ),
         ),
-
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-
           children: [
             Container(
               width: 45,
               height: 45,
-
               decoration: BoxDecoration(
                 color: iconBackground(isDark),
                 borderRadius: BorderRadius.circular(13),
               ),
-
               child: Icon(
                 item['icon'] as IconData,
                 color: accentColor(isDark),
                 size: 21,
               ),
             ),
-
             const SizedBox(width: 12),
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-
                 children: [
                   Text(
                     item['title'] as String,
@@ -551,9 +535,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       color: primaryText(isDark),
                     ),
                   ),
-
                   const SizedBox(height: 5),
-
                   Text(
                     item['message'] as String,
                     style: TextStyle(
@@ -561,9 +543,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       color: secondaryText(isDark),
                     ),
                   ),
-
                   const SizedBox(height: 7),
-
                   Text(
                     item['time'] as String,
                     style: TextStyle(
@@ -588,43 +568,39 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return SizedBox(
       width: 48,
       height: 48,
-
       child: Stack(
         clipBehavior: Clip.none,
-
         children: [
           Positioned.fill(
             child: IconButton(
               onPressed: openNotifications,
-
               icon: Icon(
                 Icons.notifications_none_rounded,
                 color: primaryText(isDark),
               ),
             ),
           ),
-
           if (unreadNotificationCount > 0)
             Positioned(
               right: 2,
               top: 2,
-
               child: Container(
-                constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
-
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-
+                constraints: const BoxConstraints(
+                  minWidth: 18,
+                  minHeight: 18,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 4,
+                ),
                 decoration: const BoxDecoration(
                   color: Colors.red,
                   shape: BoxShape.circle,
                 ),
-
                 child: Center(
                   child: Text(
                     unreadNotificationCount > 9
                         ? '9+'
                         : unreadNotificationCount.toString(),
-
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 9,
@@ -659,26 +635,31 @@ class _AdminDashboardState extends State<AdminDashboard> {
           // ==================================================
           // MOBILE DRAWER
           // ==================================================
+
           drawer: !isDesktop
               ? Drawer(
                   backgroundColor: sidebarColor(isDark),
-
-                  child: SafeArea(child: buildSidebar(isDark, true)),
+                  child: SafeArea(
+                    child: buildSidebar(
+                      isDark,
+                      true,
+                    ),
+                  ),
                 )
               : null,
 
           // ==================================================
           // MOBILE APP BAR
           // ==================================================
+
           appBar: isDesktop
               ? null
               : AppBar(
                   backgroundColor: cardColor(isDark),
-
                   elevation: 0,
-
-                  iconTheme: IconThemeData(color: primaryText(isDark)),
-
+                  iconTheme: IconThemeData(
+                    color: primaryText(isDark),
+                  ),
                   title: Text(
                     'Divine Craving',
                     style: TextStyle(
@@ -686,24 +667,19 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   actions: [
                     IconButton(
                       onPressed: () {
                         themeProvider.toggleTheme();
                       },
-
                       icon: Icon(
                         isDark
                             ? Icons.light_mode_rounded
                             : Icons.dark_mode_rounded,
-
                         color: accentColor(isDark),
                       ),
                     ),
-
                     notificationButton(isDark),
-
                     const SizedBox(width: 8),
                   ],
                 ),
@@ -711,11 +687,20 @@ class _AdminDashboardState extends State<AdminDashboard> {
           // ==================================================
           // BODY
           // ==================================================
+
           body: Row(
             children: [
-              if (isDesktop) buildSidebar(isDark, false),
-
-              Expanded(child: buildMainContent(isDark, isDesktop)),
+              if (isDesktop)
+                buildSidebar(
+                  isDark,
+                  false,
+                ),
+              Expanded(
+                child: buildMainContent(
+                  isDark,
+                  isDesktop,
+                ),
+              ),
             ],
           ),
         );
@@ -727,13 +712,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
   // SIDEBAR
   // ============================================================
 
-  Widget buildSidebar(bool isDark, bool isDrawer) {
+  Widget buildSidebar(
+    bool isDark,
+    bool isDrawer,
+  ) {
     return Container(
       width: 260,
-
       decoration: BoxDecoration(
         color: sidebarColor(isDark),
-
         border: isDrawer
             ? null
             : Border(
@@ -742,27 +728,52 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 ),
               ),
       ),
-
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(22),
+          // ==================================================
+          // DIVINE CRAVING LOGO
+          // ==================================================
 
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              22,
+              22,
+              22,
+              18,
+            ),
             child: Row(
               children: [
-                Container(
-                  width: 48,
-                  height: 48,
+                // ==================================================
+                // PERFECT CIRCLE LOGO
+                // ==================================================
 
-                  decoration: BoxDecoration(
-                    color: AppColors.gold,
-                    borderRadius: BorderRadius.circular(14),
-                  ),
+                ClipOval(
+                  child: SizedBox(
+                    width: 58,
+                    height: 58,
+                    child: Image.asset(
+                      'assets/images/divine_craving_logo.png',
+                      width: 58,
+                      height: 58,
 
-                  child: const Icon(
-                    Icons.cake_rounded,
-                    color: AppColors.brown,
-                    size: 27,
+                      // Logo ko circle ke andar properly fit karega
+                      fit: BoxFit.cover,
+
+                      // Agar image load na ho to fallback
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 58,
+                          height: 58,
+                          color: AppColors.gold,
+                          alignment: Alignment.center,
+                          child: const Icon(
+                            Icons.cake_rounded,
+                            color: AppColors.brown,
+                            size: 28,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
 
@@ -771,7 +782,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-
                     children: [
                       Text(
                         'Divine',
@@ -781,11 +791,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
                       Text(
                         'CRAVING',
                         style: TextStyle(
-                          color: secondaryText(isDark),
+                          color: secondaryText(
+                            isDark,
+                          ),
                           fontSize: 9,
                           letterSpacing: 2,
                           fontWeight: FontWeight.w600,
@@ -798,16 +809,18 @@ class _AdminDashboardState extends State<AdminDashboard> {
             ),
           ),
 
-          Divider(color: isDark ? Colors.white10 : Colors.black12),
+          Divider(
+            color: isDark ? Colors.white10 : Colors.black12,
+          ),
 
           const SizedBox(height: 15),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
             child: Align(
               alignment: Alignment.centerLeft,
-
               child: Text(
                 'MAIN MENU',
                 style: TextStyle(
@@ -824,12 +837,16 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+              ),
               itemCount: menuTitles.length,
-
               itemBuilder: (context, index) {
-                return buildSidebarItem(index, isDark, isDrawer);
+                return buildSidebarItem(
+                  index,
+                  isDark,
+                  isDrawer,
+                );
               },
             ),
           ),
@@ -837,17 +854,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
           // ==================================================
           // ADMIN PROFILE
           // ==================================================
+
           Container(
             margin: const EdgeInsets.all(15),
-
             padding: const EdgeInsets.all(12),
-
             decoration: BoxDecoration(
               color: iconBackground(isDark),
-
               borderRadius: BorderRadius.circular(16),
             ),
-
             child: Column(
               children: [
                 Row(
@@ -855,80 +869,84 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     Container(
                       width: 42,
                       height: 42,
-
                       decoration: const BoxDecoration(
                         color: AppColors.gold,
                         shape: BoxShape.circle,
                       ),
-
                       child: const Icon(
                         Icons.person_rounded,
                         color: AppColors.brown,
                       ),
                     ),
-
                     const SizedBox(width: 10),
-
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-
                         children: [
                           Text(
                             'Admin',
                             style: TextStyle(
-                              color: primaryText(isDark),
+                              color: primaryText(
+                                isDark,
+                              ),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-
-                          const SizedBox(height: 2),
-
+                          const SizedBox(
+                            height: 2,
+                          ),
                           Text(
                             'Administrator',
                             style: TextStyle(
-                              color: secondaryText(isDark),
+                              color: secondaryText(
+                                isDark,
+                              ),
                               fontSize: 10,
                             ),
                           ),
                         ],
                       ),
                     ),
-
                     Icon(
                       Icons.verified_rounded,
                       size: 18,
-                      color: accentColor(isDark),
+                      color: accentColor(
+                        isDark,
+                      ),
                     ),
                   ],
                 ),
 
                 const SizedBox(height: 10),
 
-                Divider(color: isDark ? Colors.white10 : Colors.black12),
+                Divider(
+                  color: isDark ? Colors.white10 : Colors.black12,
+                ),
 
                 const SizedBox(height: 4),
 
                 // ==================================================
-                // LOGOUT BUTTON
+                // LOGOUT
                 // ==================================================
+
                 InkWell(
                   onTap: logout,
-
-                  borderRadius: BorderRadius.circular(12),
-
+                  borderRadius: BorderRadius.circular(
+                    12,
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 6,
                     ),
-
                     child: Row(
                       children: const [
-                        Icon(Icons.logout_rounded, color: Colors.red, size: 20),
-
+                        Icon(
+                          Icons.logout_rounded,
+                          color: Colors.red,
+                          size: 20,
+                        ),
                         SizedBox(width: 10),
-
                         Text(
                           'Logout',
                           style: TextStyle(
@@ -952,62 +970,75 @@ class _AdminDashboardState extends State<AdminDashboard> {
   // SIDEBAR ITEM
   // ============================================================
 
-  Widget buildSidebarItem(int index, bool isDark, bool isDrawer) {
+  Widget buildSidebarItem(
+    int index,
+    bool isDark,
+    bool isDrawer,
+  ) {
     final bool selected = selectedIndex == index;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 5),
-
+      padding: const EdgeInsets.only(
+        bottom: 5,
+      ),
       child: InkWell(
         borderRadius: BorderRadius.circular(13),
-
         onTap: () {
-          selectMenu(index, isDrawer: isDrawer);
+          selectMenu(
+            index,
+            isDrawer: isDrawer,
+          );
         },
-
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-
+          padding: const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 13,
+          ),
           decoration: BoxDecoration(
             color: selected
                 ? isDark
-                      ? const Color(0xFF3A3027)
-                      : AppColors.peach
+                    ? const Color(
+                        0xFF3A3027,
+                      )
+                    : AppColors.peach
                 : Colors.transparent,
-
-            borderRadius: BorderRadius.circular(13),
+            borderRadius: BorderRadius.circular(
+              13,
+            ),
           ),
-
           child: Row(
             children: [
               Icon(
                 menuIcons[index],
                 size: 21,
-
-                color: selected ? accentColor(isDark) : secondaryText(isDark),
+                color: selected
+                    ? accentColor(
+                        isDark,
+                      )
+                    : secondaryText(
+                        isDark,
+                      ),
               ),
-
               const SizedBox(width: 13),
-
               Expanded(
                 child: Text(
                   menuTitles[index],
-
                   style: TextStyle(
                     color: selected
-                        ? primaryText(isDark)
-                        : secondaryText(isDark),
-
+                        ? primaryText(
+                            isDark,
+                          )
+                        : secondaryText(
+                            isDark,
+                          ),
                     fontWeight: selected ? FontWeight.bold : FontWeight.w500,
                   ),
                 ),
               ),
-
               if (selected)
                 Container(
                   width: 5,
                   height: 5,
-
                   decoration: const BoxDecoration(
                     color: AppColors.gold,
                     shape: BoxShape.circle,
@@ -1024,110 +1055,111 @@ class _AdminDashboardState extends State<AdminDashboard> {
   // MAIN CONTENT
   // ============================================================
 
-  Widget buildMainContent(bool isDark, bool isDesktop) {
+  Widget buildMainContent(
+    bool isDark,
+    bool isDesktop,
+  ) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(isDesktop ? 30 : 18),
-
+      padding: EdgeInsets.all(
+        isDesktop ? 30 : 18,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-
         children: [
           Row(
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-
                   children: [
                     Text(
                       'Dashboard',
-
                       style: TextStyle(
                         fontSize: isDesktop ? 30 : 25,
                         fontWeight: FontWeight.bold,
-                        color: primaryText(isDark),
+                        color: primaryText(
+                          isDark,
+                        ),
                       ),
                     ),
-
                     const SizedBox(height: 6),
-
                     Text(
                       'Welcome back, Admin 👋',
-
                       style: TextStyle(
-                        color: secondaryText(isDark),
+                        color: secondaryText(
+                          isDark,
+                        ),
                         fontSize: 14,
                       ),
                     ),
                   ],
                 ),
               ),
-
               if (isDesktop)
                 Row(
                   children: [
                     Container(
                       width: 45,
                       height: 45,
-
                       decoration: BoxDecoration(
-                        color: cardColor(isDark),
-                        borderRadius: BorderRadius.circular(13),
+                        color: cardColor(
+                          isDark,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          13,
+                        ),
                       ),
-
                       child: IconButton(
                         onPressed: () {
                           context.read<AdminThemeProvider>().toggleTheme();
                         },
-
                         icon: Icon(
                           isDark
                               ? Icons.light_mode_rounded
                               : Icons.dark_mode_rounded,
-
-                          color: accentColor(isDark),
+                          color: accentColor(
+                            isDark,
+                          ),
                         ),
                       ),
                     ),
-
                     const SizedBox(width: 10),
-
                     Container(
                       width: 45,
                       height: 45,
-
                       decoration: BoxDecoration(
-                        color: cardColor(isDark),
-                        borderRadius: BorderRadius.circular(13),
+                        color: cardColor(
+                          isDark,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          13,
+                        ),
                       ),
-
-                      child: notificationButton(isDark),
+                      child: notificationButton(
+                        isDark,
+                      ),
                     ),
                   ],
                 ),
             ],
           ),
-
           const SizedBox(height: 30),
-
           buildStats(isDark),
-
           const SizedBox(height: 30),
-
           Row(
             children: [
               Expanded(
                 child: Text(
                   'Recent Orders',
-
                   style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.bold,
-                    color: primaryText(isDark),
+                    color: primaryText(
+                      isDark,
+                    ),
                   ),
                 ),
               ),
-
               TextButton(
                 onPressed: () {
                   setState(() {
@@ -1136,21 +1168,19 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
                   openPage(1);
                 },
-
                 child: Text(
                   'View All',
-
                   style: TextStyle(
-                    color: accentColor(isDark),
+                    color: accentColor(
+                      isDark,
+                    ),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ],
           ),
-
           const SizedBox(height: 10),
-
           buildOrderTile(
             isDark,
             'Ali Ahmed',
@@ -1158,7 +1188,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
             'Rs 2,500',
             'Pending',
           ),
-
           buildOrderTile(
             isDark,
             'Sara Khan',
@@ -1166,7 +1195,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
             'Rs 3,000',
             'Completed',
           ),
-
           buildOrderTile(
             isDark,
             'Usman Ali',
@@ -1174,7 +1202,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
             'Rs 2,000',
             'Processing',
           ),
-
           buildOrderTile(
             isDark,
             'Ayesha',
@@ -1198,8 +1225,16 @@ class _AdminDashboardState extends State<AdminDashboard> {
         'value': '128',
         'icon': Icons.shopping_bag_rounded,
       },
-      {'title': 'Total Cakes', 'value': '46', 'icon': Icons.cake_rounded},
-      {'title': 'Customers', 'value': '342', 'icon': Icons.people_rounded},
+      {
+        'title': 'Total Cakes',
+        'value': '46',
+        'icon': Icons.cake_rounded,
+      },
+      {
+        'title': 'Customers',
+        'value': '342',
+        'icon': Icons.people_rounded,
+      },
       {
         'title': 'Revenue',
         'value': 'Rs 85,400',
@@ -1219,31 +1254,21 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
         return GridView.builder(
           shrinkWrap: true,
-
           physics: const NeverScrollableScrollPhysics(),
-
           itemCount: stats.length,
-
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: columns,
-
             crossAxisSpacing: 15,
-
             mainAxisSpacing: 15,
-
             childAspectRatio: columns == 1 ? 3.5 : 2.1,
           ),
-
           itemBuilder: (context, index) {
             final stat = stats[index];
 
             return buildStatCard(
               title: stat['title'] as String,
-
               value: stat['value'] as String,
-
               icon: stat['icon'] as IconData,
-
               isDark: isDark,
             );
           },
@@ -1264,49 +1289,51 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }) {
     return Container(
       padding: const EdgeInsets.all(17),
-
       decoration: BoxDecoration(
         color: cardColor(isDark),
-
         borderRadius: BorderRadius.circular(18),
       ),
-
       child: Row(
         children: [
           Container(
             width: 52,
             height: 52,
-
             decoration: BoxDecoration(
-              color: iconBackground(isDark),
-              borderRadius: BorderRadius.circular(14),
+              color: iconBackground(
+                isDark,
+              ),
+              borderRadius: BorderRadius.circular(
+                14,
+              ),
             ),
-
-            child: Icon(icon, color: accentColor(isDark), size: 25),
+            child: Icon(
+              icon,
+              color: accentColor(isDark),
+              size: 25,
+            ),
           ),
-
           const SizedBox(width: 14),
-
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-
               crossAxisAlignment: CrossAxisAlignment.start,
-
               children: [
                 Text(
                   title,
-
-                  style: TextStyle(color: secondaryText(isDark), fontSize: 12),
+                  style: TextStyle(
+                    color: secondaryText(
+                      isDark,
+                    ),
+                    fontSize: 12,
+                  ),
                 ),
-
                 const SizedBox(height: 5),
-
                 Text(
                   value,
-
                   style: TextStyle(
-                    color: primaryText(isDark),
+                    color: primaryText(
+                      isDark,
+                    ),
                     fontSize: 19,
                     fontWeight: FontWeight.bold,
                   ),
@@ -1335,90 +1362,97 @@ class _AdminDashboardState extends State<AdminDashboard> {
     final Color statusColor = completed
         ? Colors.green
         : status == 'Processing'
-        ? Colors.orange
-        : accentColor(isDark);
+            ? Colors.orange
+            : accentColor(
+                isDark,
+              );
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-
+      margin: const EdgeInsets.only(
+        bottom: 10,
+      ),
       padding: const EdgeInsets.all(14),
-
       decoration: BoxDecoration(
         color: cardColor(isDark),
-
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(
+          16,
+        ),
       ),
-
       child: Row(
         children: [
           Container(
             width: 46,
             height: 46,
-
             decoration: BoxDecoration(
-              color: iconBackground(isDark),
-              borderRadius: BorderRadius.circular(13),
+              color: iconBackground(
+                isDark,
+              ),
+              borderRadius: BorderRadius.circular(
+                13,
+              ),
             ),
-
-            child: Icon(Icons.cake_rounded, color: accentColor(isDark)),
+            child: Icon(
+              Icons.cake_rounded,
+              color: accentColor(isDark),
+            ),
           ),
-
           const SizedBox(width: 12),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-
               children: [
                 Text(
                   customer,
-
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: primaryText(isDark),
+                    color: primaryText(
+                      isDark,
+                    ),
                     fontSize: 14,
                   ),
                 ),
-
                 const SizedBox(height: 4),
-
                 Text(
                   cake,
-
-                  style: TextStyle(color: secondaryText(isDark), fontSize: 11),
+                  style: TextStyle(
+                    color: secondaryText(
+                      isDark,
+                    ),
+                    fontSize: 11,
+                  ),
                 ),
               ],
             ),
           ),
-
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
-
             children: [
               Text(
                 price,
-
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: primaryText(isDark),
+                  color: primaryText(
+                    isDark,
+                  ),
                   fontSize: 12,
                 ),
               ),
-
               const SizedBox(height: 5),
-
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-
-                decoration: BoxDecoration(
-                  color: statusColor.withOpacity(0.10),
-
-                  borderRadius: BorderRadius.circular(7),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
                 ),
-
+                decoration: BoxDecoration(
+                  color: statusColor.withOpacity(
+                    0.10,
+                  ),
+                  borderRadius: BorderRadius.circular(
+                    7,
+                  ),
+                ),
                 child: Text(
                   status,
-
                   style: TextStyle(
                     fontSize: 9,
                     fontWeight: FontWeight.bold,

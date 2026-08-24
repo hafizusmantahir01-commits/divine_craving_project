@@ -54,40 +54,73 @@ class RoleSelectionScreen extends StatelessWidget {
               child: Column(
                 children: [
                   // ========================================================
-                  // LOGO
+                  // DIVINE CRAVING LOGO
+                  // PERFECT CIRCLE - NO SHADOW
                   // ========================================================
 
-                  Container(
-                    width: 94,
-                    height: 94,
-                    decoration: BoxDecoration(
-                      color: iconBoxColor,
-                      borderRadius: BorderRadius.circular(28),
-                      border: Border.all(
-                        color: isDark
-                            ? const Color(0xFF6B4A38)
-                            : const Color(0xFFF0D8C3),
-                        width: 1.5,
-                      ),
-                      boxShadow: [
-                        if (isDark)
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.35),
-                            blurRadius: 18,
-                            offset: const Offset(0, 8),
-                          )
-                        else
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.06),
-                            blurRadius: 18,
-                            offset: const Offset(0, 8),
+                  SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: ClipOval(
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: iconBoxColor,
+                          border: Border.all(
+                            color: isDark
+                                ? const Color(0xFF6B4A38)
+                                : const Color(0xFFF0D8C3),
+                            width: 1.5,
                           ),
-                      ],
-                    ),
-                    child: Icon(
-                      Icons.cake_rounded,
-                      size: 50,
-                      color: primary,
+                        ),
+
+                        // ==================================================
+                        // LOGO IMAGE
+                        // ==================================================
+
+                        child: ClipOval(
+                          child: Image.asset(
+                            'assets/images/divine_craving_logo.png',
+
+                            width: 100,
+                            height: 100,
+
+                            // IMPORTANT:
+                            // Cover se complete circle fill hoga.
+                            fit: BoxFit.cover,
+
+                            // Logo ko circle ke center mein rakhega.
+                            alignment: Alignment.center,
+
+                            // ==================================================
+                            // ERROR FALLBACK
+                            // ==================================================
+
+                            errorBuilder: (
+                              context,
+                              error,
+                              stackTrace,
+                            ) {
+                              return Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: iconBoxColor,
+                                ),
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  Icons.cake_rounded,
+                                  size: 48,
+                                  color: primary,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
                     ),
                   ),
 
@@ -124,6 +157,10 @@ class RoleSelectionScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 7),
+
+                  // ========================================================
+                  // SUBTITLE
+                  // ========================================================
 
                   Text(
                     'Choose how you want to continue',
@@ -323,20 +360,10 @@ class _RoleCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(22),
-
-        // ==============================================================
-        // BORDER
-        // ==============================================================
-
         border: Border.all(
           color: borderColor,
           width: isDark ? 1.2 : 1,
         ),
-
-        // ==============================================================
-        // SHADOW
-        // ==============================================================
-
         boxShadow: [
           if (isDark)
             BoxShadow(
