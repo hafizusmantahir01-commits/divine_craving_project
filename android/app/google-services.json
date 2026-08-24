@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "508130302513",
+    "project_id": "divine-craving",
+    "storage_bucket": "divine-craving.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508130302513:android:d6ec591792b6f6c4d71310",
+        "android_client_info": {
+          "package_name": "com.example.divine_craving_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmwvLVUwDeZcTJYFXIk2rJUwp4V8IBsKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
