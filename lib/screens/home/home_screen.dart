@@ -18,9 +18,9 @@ class HomeScreen extends StatelessWidget {
     required this.onNavigation,
   });
 
-  // ==========================================================
+  // ============================================================
   // NOTIFICATION DIALOG
-  // ==========================================================
+  // ============================================================
 
   void _showNotificationDialog(BuildContext context) {
     final theme = Theme.of(context);
@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(dialogContext).pop();
+                Navigator.pop(dialogContext);
               },
               child: Text(
                 'Close',
@@ -87,9 +87,9 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ==========================================================
+  // ============================================================
   // FILTER BOTTOM SHEET
-  // ==========================================================
+  // ============================================================
 
   void _showFilterBottomSheet(BuildContext context) {
     final theme = Theme.of(context);
@@ -99,7 +99,6 @@ class HomeScreen extends StatelessWidget {
       context: context,
       backgroundColor: theme.cardColor,
       isScrollControlled: true,
-      showDragHandle: false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(26),
@@ -123,15 +122,12 @@ class HomeScreen extends StatelessWidget {
                     width: 45,
                     height: 5,
                     decoration: BoxDecoration(
-                      color:
-                          isDark ? Colors.white24 : Colors.black12,
+                      color: isDark ? Colors.white24 : Colors.black12,
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
                 Text(
                   'Filter & Sort',
                   style: TextStyle(
@@ -140,9 +136,7 @@ class HomeScreen extends StatelessWidget {
                     color: theme.textTheme.titleLarge?.color,
                   ),
                 ),
-
                 const SizedBox(height: 18),
-
                 _filterItem(
                   context: bottomSheetContext,
                   icon: Icons.sort_by_alpha_rounded,
@@ -150,7 +144,7 @@ class HomeScreen extends StatelessWidget {
                   subtitle: 'A - Z',
                   isDark: isDark,
                   onTap: () {
-                    Navigator.of(bottomSheetContext).pop();
+                    Navigator.pop(bottomSheetContext);
 
                     _showMessage(
                       context,
@@ -158,9 +152,7 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                 ),
-
                 const SizedBox(height: 6),
-
                 _filterItem(
                   context: bottomSheetContext,
                   icon: Icons.attach_money_rounded,
@@ -168,7 +160,7 @@ class HomeScreen extends StatelessWidget {
                   subtitle: 'Low to High',
                   isDark: isDark,
                   onTap: () {
-                    Navigator.of(bottomSheetContext).pop();
+                    Navigator.pop(bottomSheetContext);
 
                     _showMessage(
                       context,
@@ -176,25 +168,22 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                 ),
-
                 const SizedBox(height: 6),
-
                 _filterItem(
                   context: bottomSheetContext,
                   icon: Icons.star_rounded,
                   title: 'Top Rated',
-                  subtitle: 'Highest rated cakes',
+                  subtitle: 'Highest rated products',
                   isDark: isDark,
                   onTap: () {
-                    Navigator.of(bottomSheetContext).pop();
+                    Navigator.pop(bottomSheetContext);
 
                     _showMessage(
                       context,
-                      'Showing top rated cakes',
+                      'Showing top rated products',
                     );
                   },
                 ),
-
                 const SizedBox(height: 8),
               ],
             ),
@@ -204,9 +193,9 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ==========================================================
+  // ============================================================
   // FILTER ITEM
-  // ==========================================================
+  // ============================================================
 
   Widget _filterItem({
     required BuildContext context,
@@ -224,9 +213,8 @@ class HomeScreen extends StatelessWidget {
         width: 46,
         height: 46,
         decoration: BoxDecoration(
-          color: isDark
-              ? AppColors.brown.withOpacity(0.25)
-              : AppColors.lightCream,
+          color:
+              isDark ? AppColors.brown.withOpacity(0.25) : AppColors.lightCream,
           borderRadius: BorderRadius.circular(13),
         ),
         child: Icon(
@@ -255,9 +243,9 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ==========================================================
+  // ============================================================
   // SNACKBAR
-  // ==========================================================
+  // ============================================================
 
   void _showMessage(
     BuildContext context,
@@ -277,9 +265,9 @@ class HomeScreen extends StatelessWidget {
       );
   }
 
-  // ==========================================================
-  // CATEGORY
-  // ==========================================================
+  // ============================================================
+  // CATEGORY ITEM
+  // ============================================================
 
   Widget _categoryItem({
     required IconData icon,
@@ -301,9 +289,9 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ==========================================================
+  // ============================================================
   // BROWNIE CARD
-  // ==========================================================
+  // ============================================================
 
   Widget _brownieCard(
     BuildContext context,
@@ -312,19 +300,19 @@ class HomeScreen extends StatelessWidget {
   ) {
     final theme = Theme.of(context);
 
-    final Color cardColor =
-        isDark ? const Color(0xFF241B18) : Colors.white;
+    final Color cardColor = isDark ? const Color(0xFF241B18) : Colors.white;
 
-    final Color titleColor =
-        isDark ? Colors.white : theme.colorScheme.primary;
+    final Color titleColor = isDark ? Colors.white : theme.colorScheme.primary;
 
-    final Color bodyColor =
-        isDark ? Colors.white70 : AppColors.grey;
+    final Color bodyColor = isDark ? Colors.white70 : AppColors.grey;
 
     return Consumer<FavoriteProvider>(
-      builder: (context, favoriteProvider, child) {
-        final bool isFavorite =
-            favoriteProvider.isBrownieFavorite(
+      builder: (
+        context,
+        favoriteProvider,
+        child,
+      ) {
+        final bool isFavorite = favoriteProvider.isBrownieFavorite(
           brownie.id,
         );
 
@@ -336,10 +324,11 @@ class HomeScreen extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             borderRadius: BorderRadius.circular(18),
-            onTap: () {},
+            onTap: () {
+              // Brownie details yahan add kar sakte hain.
+            },
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // ==================================================
                 // IMAGE
@@ -353,8 +342,11 @@ class HomeScreen extends StatelessWidget {
                         child: Image.network(
                           brownie.image,
                           fit: BoxFit.cover,
-                          errorBuilder:
-                              (context, error, stackTrace) {
+                          errorBuilder: (
+                            context,
+                            error,
+                            stackTrace,
+                          ) {
                             return Container(
                               color: isDark
                                   ? const Color(0xFF30231F)
@@ -379,19 +371,18 @@ class HomeScreen extends StatelessWidget {
                               color: isDark
                                   ? const Color(0xFF30231F)
                                   : AppColors.lightCream,
-                              child: const Center(
-                                child:
-                                    CircularProgressIndicator(),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: theme.colorScheme.primary,
+                                ),
                               ),
                             );
                           },
                         ),
                       ),
 
-                      // ==================================================
                       // FAVORITE BUTTON
-                      // ==================================================
-
                       Positioned(
                         top: 10,
                         right: 10,
@@ -399,17 +390,14 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.black.withOpacity(0.55),
                           shape: const CircleBorder(),
                           child: InkWell(
-                            customBorder:
-                                const CircleBorder(),
+                            customBorder: const CircleBorder(),
                             onTap: () {
-                              favoriteProvider
-                                  .toggleBrownieFavorite(
+                              favoriteProvider.toggleBrownieFavorite(
                                 brownie,
                               );
                             },
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               child: Icon(
                                 isFavorite
                                     ? Icons.favorite_rounded
@@ -441,68 +429,58 @@ class HomeScreen extends StatelessWidget {
                       10,
                     ),
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           brownie.name,
                           maxLines: 1,
-                          overflow:
-                              TextOverflow.ellipsis,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: titleColor,
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-
                         const SizedBox(height: 5),
-
                         Text(
                           brownie.description,
                           maxLines: 2,
-                          overflow:
-                              TextOverflow.ellipsis,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: bodyColor,
                             fontSize: 11,
                             height: 1.25,
                           ),
                         ),
-
                         const Spacer(),
-
                         Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Rs. ${brownie.price}',
-                              style: TextStyle(
-                                color:
-                                    theme.colorScheme.primary,
-                                fontSize: 14,
-                                fontWeight:
-                                    FontWeight.bold,
+                            Flexible(
+                              child: Text(
+                                'Rs. ${brownie.price.toStringAsFixed(0)}',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: theme.colorScheme.primary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-
+                            const SizedBox(width: 8),
                             Container(
                               width: 30,
                               height: 30,
                               decoration: BoxDecoration(
                                 color: isDark
-                                    ? AppColors.brown
-                                        .withOpacity(0.3)
+                                    ? AppColors.brown.withOpacity(0.3)
                                     : AppColors.lightCream,
-                                borderRadius:
-                                    BorderRadius.circular(9),
+                                borderRadius: BorderRadius.circular(9),
                               ),
                               child: Icon(
                                 Icons.add_rounded,
                                 size: 20,
-                                color: theme
-                                    .colorScheme.primary,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                           ],
@@ -519,25 +497,23 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ==========================================================
+  // ============================================================
   // BUILD
-  // ==========================================================
+  // ============================================================
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final screenWidth =
-        MediaQuery.of(context).size.width;
 
-    final isDark =
-        theme.brightness == Brightness.dark;
+    final double screenWidth = MediaQuery.of(context).size.width;
+
+    final bool isDark = theme.brightness == Brightness.dark;
 
     final bool isDesktop = screenWidth >= 900;
-    final bool isLargeDesktop =
-        screenWidth >= 1200;
 
-    final double horizontalPadding =
-        isDesktop ? 40 : 20;
+    final bool isLargeDesktop = screenWidth >= 1200;
+
+    final double horizontalPadding = isDesktop ? 40 : 20;
 
     int columns;
 
@@ -550,38 +526,24 @@ class HomeScreen extends StatelessWidget {
     }
 
     final Color headingColor =
-        isDark
-            ? Colors.white
-            : theme.colorScheme.primary;
+        isDark ? Colors.white : theme.colorScheme.primary;
 
     final Color bodyColor = isDark
         ? Colors.white70
-        : theme.textTheme.bodyMedium?.color ??
-            AppColors.grey;
+        : theme.textTheme.bodyMedium?.color ?? AppColors.grey;
 
-    final Color iconColor =
-        isDark
-            ? Colors.white
-            : theme.colorScheme.primary;
+    final Color iconColor = isDark ? Colors.white : theme.colorScheme.primary;
 
-    final Color fieldColor =
-        isDark
-            ? const Color(0xFF241B18)
-            : Colors.white;
+    final Color fieldColor = isDark ? const Color(0xFF241B18) : Colors.white;
 
     final Color softColor =
-        isDark
-            ? const Color(0xFF2D211C)
-            : AppColors.lightCream;
+        isDark ? const Color(0xFF2D211C) : AppColors.lightCream;
 
     return Scaffold(
-      backgroundColor:
-          theme.scaffoldBackgroundColor,
-
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: CustomScrollView(
-          physics:
-              const BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             // ==================================================
             // HEADER
@@ -599,68 +561,51 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Good Evening 👋',
                             style: TextStyle(
                               color: bodyColor,
                               fontSize: 13,
-                              fontWeight:
-                                  FontWeight.w500,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                           const SizedBox(height: 6),
                           Text(
                             'What are you craving today?',
                             maxLines: 2,
-                            overflow:
-                                TextOverflow.ellipsis,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: headingColor,
-                              fontSize:
-                                  isLargeDesktop
-                                      ? 28
-                                      : 21,
-                              fontWeight:
-                                  FontWeight.bold,
+                              fontSize: isLargeDesktop ? 28 : 21,
+                              fontWeight: FontWeight.bold,
                               height: 1.2,
                             ),
                           ),
                         ],
                       ),
                     ),
-
                     const SizedBox(width: 15),
-
                     Material(
-                      color:
-                          Colors.transparent,
+                      color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          _showNotificationDialog(
-                            context,
-                          );
+                          _showNotificationDialog(context);
                         },
-                        borderRadius:
-                            BorderRadius.circular(50),
+                        borderRadius: BorderRadius.circular(50),
                         child: Container(
                           width: 46,
                           height: 46,
-                          decoration:
-                              BoxDecoration(
+                          decoration: BoxDecoration(
                             color: softColor,
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: isDark
-                                  ? Colors.white10
-                                  : Colors.black12,
+                              color: isDark ? Colors.white10 : Colors.black12,
                             ),
                           ),
                           child: Icon(
-                            Icons
-                                .notifications_none_rounded,
+                            Icons.notifications_none_rounded,
                             color: iconColor,
                             size: 24,
                           ),
@@ -689,101 +634,61 @@ class HomeScreen extends StatelessWidget {
                     Expanded(
                       child: TextField(
                         style: TextStyle(
-                          color: isDark
-                              ? Colors.white
-                              : Colors.black87,
+                          color: isDark ? Colors.white : Colors.black87,
                         ),
-                        decoration:
-                            InputDecoration(
-                          hintText:
-                              'Search for cakes...',
-                          hintStyle:
-                              TextStyle(
-                            color: isDark
-                                ? Colors.white54
-                                : AppColors.grey,
+                        decoration: InputDecoration(
+                          hintText: 'Search for cakes or brownies...',
+                          hintStyle: TextStyle(
+                            color: isDark ? Colors.white54 : AppColors.grey,
                           ),
                           prefixIcon: Icon(
                             Icons.search_rounded,
-                            color: isDark
-                                ? Colors.white70
-                                : AppColors.brown,
+                            color: isDark ? Colors.white70 : AppColors.brown,
                           ),
                           filled: true,
-                          fillColor:
-                              fieldColor,
-                          contentPadding:
-                              const EdgeInsets
-                                  .symmetric(
+                          fillColor: fieldColor,
+                          contentPadding: const EdgeInsets.symmetric(
                             vertical: 15,
                             horizontal: 10,
                           ),
-                          border:
-                              OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius
-                                    .circular(15),
-                            borderSide:
-                                BorderSide(
-                              color: isDark
-                                  ? Colors.white10
-                                  : Colors.black12,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide(
+                              color: isDark ? Colors.white10 : Colors.black12,
                             ),
                           ),
-                          enabledBorder:
-                              OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius
-                                    .circular(15),
-                            borderSide:
-                                BorderSide(
-                              color: isDark
-                                  ? Colors.white10
-                                  : Colors.black12,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide(
+                              color: isDark ? Colors.white10 : Colors.black12,
                             ),
                           ),
-                          focusedBorder:
-                              OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius
-                                    .circular(15),
-                            borderSide:
-                                BorderSide(
-                              color: theme
-                                  .colorScheme
-                                  .primary,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide(
+                              color: theme.colorScheme.primary,
                               width: 1.5,
                             ),
                           ),
                         ),
                       ),
                     ),
-
                     const SizedBox(width: 10),
-
                     Material(
-                      color:
-                          Colors.transparent,
+                      color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          _showFilterBottomSheet(
-                            context,
-                          );
+                          _showFilterBottomSheet(context);
                         },
-                        borderRadius:
-                            BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(15),
                         child: Container(
                           width: 54,
                           height: 54,
-                          decoration:
-                              BoxDecoration(
+                          decoration: BoxDecoration(
                             color: softColor,
-                            borderRadius:
-                                BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(15),
                             border: Border.all(
-                              color: isDark
-                                  ? Colors.white10
-                                  : Colors.black12,
+                              color: isDark ? Colors.white10 : Colors.black12,
                             ),
                           ),
                           child: Icon(
@@ -804,23 +709,18 @@ class HomeScreen extends StatelessWidget {
             // ==================================================
 
             SliverPadding(
-              padding:
-                  EdgeInsets.symmetric(
-                horizontal:
-                    horizontalPadding,
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontalPadding,
               ),
               sliver: SliverToBoxAdapter(
                 child: Container(
-                  height:
-                      isDesktop ? 215 : 175,
+                  height: isDesktop ? 215 : 175,
                   padding: EdgeInsets.all(
                     isDesktop ? 28 : 20,
                   ),
-                  decoration:
-                      BoxDecoration(
+                  decoration: BoxDecoration(
                     color: AppColors.brown,
-                    borderRadius:
-                        BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(24),
                   ),
                   child: Stack(
                     children: [
@@ -829,42 +729,40 @@ class HomeScreen extends StatelessWidget {
                         top: 0,
                         bottom: 0,
                         child: ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(
-                                  24),
+                          borderRadius: BorderRadius.circular(24),
                           child: Image.network(
                             'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1000',
-                            width:
-                                isDesktop
-                                    ? 280
-                                    : 190,
-                            height:
-                                double.infinity,
+                            width: isDesktop ? 280 : 190,
+                            height: double.infinity,
                             fit: BoxFit.cover,
+                            errorBuilder: (
+                              context,
+                              error,
+                              stackTrace,
+                            ) {
+                              return Container(
+                                width: isDesktop ? 280 : 190,
+                                color: AppColors.lightCream,
+                                child: const Icon(
+                                  Icons.cake_rounded,
+                                  size: 50,
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),
-
                       Positioned.fill(
                         child: IgnorePointer(
                           child: Container(
-                            decoration:
-                                BoxDecoration(
-                              borderRadius:
-                                  BorderRadius
-                                      .circular(
-                                          24),
-                              gradient:
-                                  LinearGradient(
-                                begin: Alignment
-                                    .centerLeft,
-                                end: Alignment
-                                    .centerRight,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(24),
+                              gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
                                 colors: [
                                   AppColors.brown,
-                                  AppColors.brown
-                                      .withOpacity(
-                                          0.82),
+                                  AppColors.brown.withOpacity(0.82),
                                   Colors.transparent,
                                 ],
                               ),
@@ -872,81 +770,47 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Delicious Cakes',
                             style: TextStyle(
-                              color:
-                                  Colors.white,
-                              fontSize:
-                                  isDesktop
-                                      ? 27
-                                      : 21,
-                              fontWeight:
-                                  FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: isDesktop ? 27 : 21,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(
-                              height: 6),
+                          const SizedBox(height: 6),
                           SizedBox(
-                            width:
-                                isDesktop
-                                    ? 230
-                                    : 180,
+                            width: isDesktop ? 230 : 180,
                             child: Text(
                               'Made with love, just for you!',
                               style: TextStyle(
-                                color: Colors
-                                    .white
-                                    .withOpacity(
-                                        0.85),
-                                fontSize:
-                                    isDesktop
-                                        ? 15
-                                        : 13,
+                                color: Colors.white.withOpacity(0.85),
+                                fontSize: isDesktop ? 15 : 13,
                               ),
                             ),
                           ),
                           const Spacer(),
                           Material(
-                            color:
-                                AppColors.peach,
-                            borderRadius:
-                                BorderRadius
-                                    .circular(
-                                        10),
+                            color: AppColors.peach,
+                            borderRadius: BorderRadius.circular(10),
                             child: InkWell(
                               onTap: () {
-                                onNavigation(
-                                    1);
+                                onNavigation(1);
                               },
-                              borderRadius:
-                                  BorderRadius
-                                      .circular(
-                                          10),
-                              child:
-                                  const Padding(
-                                padding:
-                                    EdgeInsets
-                                        .symmetric(
+                              borderRadius: BorderRadius.circular(10),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(
                                   horizontal: 15,
                                   vertical: 9,
                                 ),
                                 child: Text(
                                   'Order Now',
-                                  style:
-                                      TextStyle(
-                                    color:
-                                        AppColors
-                                            .brown,
-                                    fontWeight:
-                                        FontWeight
-                                            .bold,
+                                  style: TextStyle(
+                                    color: AppColors.brown,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
@@ -971,8 +835,7 @@ class HomeScreen extends StatelessWidget {
                 horizontalPadding,
                 15,
               ),
-              sliver:
-                  SliverToBoxAdapter(
+              sliver: SliverToBoxAdapter(
                 child: SectionTitle(
                   title: 'Categories',
                   action: 'See all',
@@ -985,95 +848,58 @@ class HomeScreen extends StatelessWidget {
 
             SliverToBoxAdapter(
               child: LayoutBuilder(
-                builder:
-                    (context, constraints) {
-                  if (constraints.maxWidth >=
-                      700) {
+                builder: (context, constraints) {
+                  final categories = [
+                    {
+                      'icon': Icons.cake_outlined,
+                      'title': 'Birthday',
+                    },
+                    {
+                      'icon': Icons.favorite_border,
+                      'title': 'Anniversary',
+                    },
+                    {
+                      'icon': Icons.diamond_outlined,
+                      'title': 'Wedding',
+                    },
+                    {
+                      'icon': Icons.auto_awesome,
+                      'title': 'Custom',
+                    },
+                    {
+                      'icon': Icons.apps,
+                      'title': 'All Cakes',
+                    },
+                    {
+                      'icon': Icons.cookie_outlined,
+                      'title': 'All Brownies',
+                    },
+                  ];
+
+                  if (constraints.maxWidth >= 700) {
                     return Padding(
-                      padding:
-                          EdgeInsets.symmetric(
-                        horizontal:
-                            isDesktop
-                                ? 35
-                                : 20,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isDesktop ? 35 : 20,
                       ),
                       child: Row(
-                        children: [
-                          Expanded(
+                        children: categories.map((item) {
+                          final title = item['title'] as String;
+
+                          return Expanded(
                             child: Center(
-                              child:
-                                  _categoryItem(
-                                icon: Icons
-                                    .cake_outlined,
-                                title:
-                                    'Birthday',
+                              child: _categoryItem(
+                                icon: item['icon'] as IconData,
+                                title: title,
+                                onTap: title == 'All Cakes' ||
+                                        title == 'All Brownies'
+                                    ? () {
+                                        onNavigation(1);
+                                      }
+                                    : null,
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              child:
-                                  _categoryItem(
-                                icon: Icons
-                                    .favorite_border,
-                                title:
-                                    'Anniversary',
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              child:
-                                  _categoryItem(
-                                icon: Icons
-                                    .diamond_outlined,
-                                title:
-                                    'Wedding',
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              child:
-                                  _categoryItem(
-                                icon: Icons
-                                    .auto_awesome,
-                                title:
-                                    'Custom',
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              child:
-                                  _categoryItem(
-                                icon:
-                                    Icons.apps,
-                                title:
-                                    'All Cakes',
-                                onTap: () {
-                                  onNavigation(
-                                      1);
-                                },
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              child:
-                                  _categoryItem(
-                                icon: Icons
-                                    .cookie_outlined,
-                                title:
-                                    'All Brownies',
-                                onTap: () {
-                                  onNavigation(
-                                      1);
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
+                          );
+                        }).toList(),
                       ),
                     );
                   }
@@ -1081,59 +907,24 @@ class HomeScreen extends StatelessWidget {
                   return SizedBox(
                     height: 105,
                     child: ListView(
-                      padding:
-                          const EdgeInsets
-                              .symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                       ),
-                      scrollDirection:
-                          Axis.horizontal,
-                      physics:
-                          const BouncingScrollPhysics(),
-                      children: [
-                        _categoryItem(
-                          icon:
-                              Icons.cake_outlined,
-                          title:
-                              'Birthday',
-                        ),
-                        _categoryItem(
-                          icon: Icons
-                              .favorite_border,
-                          title:
-                              'Anniversary',
-                        ),
-                        _categoryItem(
-                          icon: Icons
-                              .diamond_outlined,
-                          title:
-                              'Wedding',
-                        ),
-                        _categoryItem(
-                          icon: Icons
-                              .auto_awesome,
-                          title:
-                              'Custom',
-                        ),
-                        _categoryItem(
-                          icon:
-                              Icons.apps,
-                          title:
-                              'All Cakes',
-                          onTap: () {
-                            onNavigation(1);
-                          },
-                        ),
-                        _categoryItem(
-                          icon: Icons
-                              .cookie_outlined,
-                          title:
-                              'All Brownies',
-                          onTap: () {
-                            onNavigation(1);
-                          },
-                        ),
-                      ],
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      children: categories.map((item) {
+                        final title = item['title'] as String;
+
+                        return _categoryItem(
+                          icon: item['icon'] as IconData,
+                          title: title,
+                          onTap: title == 'All Cakes' || title == 'All Brownies'
+                              ? () {
+                                  onNavigation(1);
+                                }
+                              : null,
+                        );
+                      }).toList(),
                     ),
                   );
                 },
@@ -1151,11 +942,9 @@ class HomeScreen extends StatelessWidget {
                 horizontalPadding,
                 15,
               ),
-              sliver:
-                  SliverToBoxAdapter(
+              sliver: SliverToBoxAdapter(
                 child: SectionTitle(
-                  title:
-                      'Popular Cakes',
+                  title: 'Popular Cakes',
                   action: 'See all',
                   onTap: () {
                     onNavigation(1);
@@ -1165,43 +954,28 @@ class HomeScreen extends StatelessWidget {
             ),
 
             SliverPadding(
-              padding:
-                  EdgeInsets.symmetric(
-                horizontal:
-                    horizontalPadding,
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontalPadding,
               ),
               sliver: SliverGrid(
-                delegate:
-                    SliverChildBuilderDelegate(
+                delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     return CakeCard(
-                      cake:
-                          CakeData.cakes[index],
+                      cake: CakeData.cakes[index],
                     );
                   },
                   childCount:
-                      CakeData.cakes.length > 4
-                          ? 4
-                          : CakeData.cakes.length,
+                      CakeData.cakes.length > 4 ? 4 : CakeData.cakes.length,
                 ),
-                gridDelegate:
-                    SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount:
-                      columns,
-                  crossAxisSpacing:
-                      isDesktop
-                          ? 20
-                          : 14,
-                  mainAxisSpacing:
-                      isDesktop
-                          ? 20
-                          : 14,
-                  childAspectRatio:
-                      isLargeDesktop
-                          ? 0.78
-                          : isDesktop
-                              ? 0.72
-                              : 0.68,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: columns,
+                  crossAxisSpacing: isDesktop ? 20 : 14,
+                  mainAxisSpacing: isDesktop ? 20 : 14,
+                  childAspectRatio: isLargeDesktop
+                      ? 0.78
+                      : isDesktop
+                          ? 0.72
+                          : 0.68,
                 ),
               ),
             ),
@@ -1217,11 +991,9 @@ class HomeScreen extends StatelessWidget {
                 horizontalPadding,
                 15,
               ),
-              sliver:
-                  SliverToBoxAdapter(
+              sliver: SliverToBoxAdapter(
                 child: SectionTitle(
-                  title:
-                      'Popular Brownies',
+                  title: 'Popular Brownies',
                   action: 'See all',
                   onTap: () {
                     onNavigation(1);
@@ -1231,18 +1003,13 @@ class HomeScreen extends StatelessWidget {
             ),
 
             SliverPadding(
-              padding:
-                  EdgeInsets.symmetric(
-                horizontal:
-                    horizontalPadding,
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontalPadding,
               ),
               sliver: SliverGrid(
-                delegate:
-                    SliverChildBuilderDelegate(
+                delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    final brownie =
-                        BrownieData
-                            .brownies[index];
+                    final BrownieModel brownie = BrownieData.brownies[index];
 
                     return _brownieCard(
                       context,
@@ -1250,33 +1017,19 @@ class HomeScreen extends StatelessWidget {
                       isDark,
                     );
                   },
-                  childCount:
-                      BrownieData.brownies
-                                  .length >
-                              4
-                          ? 4
-                          : BrownieData
-                              .brownies
-                              .length,
+                  childCount: BrownieData.brownies.length > 4
+                      ? 4
+                      : BrownieData.brownies.length,
                 ),
-                gridDelegate:
-                    SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount:
-                      columns,
-                  crossAxisSpacing:
-                      isDesktop
-                          ? 20
-                          : 14,
-                  mainAxisSpacing:
-                      isDesktop
-                          ? 20
-                          : 14,
-                  childAspectRatio:
-                      isLargeDesktop
-                          ? 0.78
-                          : isDesktop
-                              ? 0.72
-                              : 0.68,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: columns,
+                  crossAxisSpacing: isDesktop ? 20 : 14,
+                  mainAxisSpacing: isDesktop ? 20 : 14,
+                  childAspectRatio: isLargeDesktop
+                      ? 0.78
+                      : isDesktop
+                          ? 0.72
+                          : 0.68,
                 ),
               ),
             ),
@@ -1287,13 +1040,9 @@ class HomeScreen extends StatelessWidget {
 
             SliverToBoxAdapter(
               child: Padding(
-                padding:
-                    EdgeInsets.only(
+                padding: EdgeInsets.only(
                   top: 35,
-                  bottom:
-                      isDesktop
-                          ? 50
-                          : 30,
+                  bottom: isDesktop ? 50 : 30,
                 ),
                 child: Center(
                   child: Text(
@@ -1301,8 +1050,7 @@ class HomeScreen extends StatelessWidget {
                     style: TextStyle(
                       color: bodyColor,
                       fontSize: 12,
-                      fontWeight:
-                          FontWeight.w500,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
