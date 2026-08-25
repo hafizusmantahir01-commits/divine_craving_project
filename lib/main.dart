@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 // ============================================================
 // PROVIDERS
@@ -53,8 +55,13 @@ import 'widgets/bottom_nav.dart';
 // MAIN
 // ============================================================
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase with auto-generated options
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(
     MultiProvider(
@@ -129,10 +136,6 @@ class MyApp extends StatelessWidget {
 
       // ======================================================
       // START SCREEN
-      // ======================================================
-      //
-      // App launch par sabse pehle Splash Screen open hogi.
-      //
       // ======================================================
 
       home: const SplashScreen(),

@@ -12,7 +12,12 @@
           "package_name": "com.example.divine_craving_project"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "508130302513-rn2bmc17kteksvnmhu2cclrgve90lptd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCmwvLVUwDeZcTJYFXIk2rJUwp4V8IBsKs"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508130302513-rn2bmc17kteksvnmhu2cclrgve90lptd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
