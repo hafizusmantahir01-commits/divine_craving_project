@@ -1,5 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'firebase_options.dart';
 
 // ============================================================
 // PROVIDERS
@@ -11,7 +14,7 @@ import 'providers/user_theme_provider.dart';
 import 'providers/admin_theme_provider.dart';
 
 // ============================================================
-// THEME + SESSION
+// THEME
 // ============================================================
 
 import 'core/theme/app_theme.dart';
@@ -53,8 +56,20 @@ import 'widgets/bottom_nav.dart';
 // MAIN
 // ============================================================
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ==========================================================
+  // FIREBASE INITIALIZATION
+  // ==========================================================
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // ==========================================================
+  // RUN APP
+  // ==========================================================
 
   runApp(
     MultiProvider(
@@ -122,17 +137,11 @@ class MyApp extends StatelessWidget {
       // ======================================================
 
       theme: AppTheme.lightTheme,
-
       darkTheme: AppTheme.darkTheme,
-
       themeMode: userTheme.themeMode,
 
       // ======================================================
       // START SCREEN
-      // ======================================================
-      //
-      // App launch par sabse pehle Splash Screen open hogi.
-      //
       // ======================================================
 
       home: const SplashScreen(),
@@ -142,19 +151,31 @@ class MyApp extends StatelessWidget {
       // ======================================================
 
       routes: {
+        // ----------------------------------------------------
         // ONBOARDING
+        // ----------------------------------------------------
+
         '/onboarding': (_) => const OnboardingScreen(),
 
+        // ----------------------------------------------------
         // AUTH
+        // ----------------------------------------------------
+
         '/role-selection': (_) => const RoleSelectionScreen(),
         '/login': (_) => const LoginScreen(),
         '/signup': (_) => const SignupScreen(),
         '/admin-login': (_) => const AdminLoginScreen(),
 
+        // ----------------------------------------------------
         // USER HOME
+        // ----------------------------------------------------
+
         '/home': (_) => const MainShell(),
 
+        // ----------------------------------------------------
         // ADMIN
+        // ----------------------------------------------------
+
         '/admin-dashboard': (_) => const AdminDashboard(),
       },
     );
